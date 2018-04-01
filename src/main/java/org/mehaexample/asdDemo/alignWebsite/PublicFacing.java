@@ -190,7 +190,6 @@ public class PublicFacing {
 		List<Integer> years = new ArrayList();
 		
 		years = studentsPublicDao.getListOfAllGraduationYears();
-		
 		return Response.status(Response.Status.OK).entity(years).build();
 	}
 	
