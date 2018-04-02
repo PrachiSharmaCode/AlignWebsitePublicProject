@@ -13,22 +13,21 @@
         </property>
 
         <property name="hibernate.connection.url">
-            jdbc:mariadb://${database.ip}:${public.port}/AlignPublic
+            jdbc:mariadb://${test.ip}:${test.port}/AlignAdmin
         </property>
 
         <property name="hibernate.connection.username">
-            ${database.username}
+            ${test.username}
         </property>
 
         <property name="hibernate.connection.password">
-            ${database.password}
+            ${test.password}
         </property>
 
         <!-- List of XML mapping files -->
-        <mapping resource="WorkExperiencesPublic.hbm.xml" />
-        <mapping resource="UndergraduatesPublic.hbm.xml" />
-        <mapping resource="StudentsPublic.hbm.xml" />
-        <mapping resource="SingleValueAggregatedData.hbm.xml" />
-        <mapping resource="MultipleValueAggregatedData.hbm.xml" />
+        <mapping resource="ElectivesAdmin.hbm.xml"/>
+        <mapping resource="Administrators.hbm.xml"/>
+        <mapping resource="AdministratorNotes.hbm.xml"/>
+        <mapping resource="AdminLogins.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
