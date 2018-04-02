@@ -7,10 +7,10 @@
     <artifactId>alignPublic</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>alignPublic</name>
+    <name>alignWebsite</name>
 
     <build>
-        <finalName>alignWebsite</finalName>
+        <finalName>alignPublic</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
