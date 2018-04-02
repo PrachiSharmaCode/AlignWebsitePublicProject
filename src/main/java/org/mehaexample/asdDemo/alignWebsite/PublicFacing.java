@@ -23,7 +23,7 @@ import org.mehaexample.asdDemo.restModels.TopGraduationYearsNumber;
 import org.mehaexample.asdDemo.restModels.TopUnderGradDegreesNumber;
 import org.mehaexample.asdDemo.restModels.TopUnderGradSchools;
 
-@Path("public-facing")
+@Path("")
 public class PublicFacing {
     UndergraduatesPublicDao undergraduatesPublicDao = new UndergraduatesPublicDao();
     WorkExperiencesPublicDao workExperiencesPublicDao = new WorkExperiencesPublicDao();
