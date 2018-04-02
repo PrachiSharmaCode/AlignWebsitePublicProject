@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mehaexample.asdDemo</groupId>
-    <artifactId>alignPublic</artifactId>
+    <artifactId>alignWebsite</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>alignPublic</name>
+    <name>alignWebsite</name>
 
     <build>
-        <finalName>alignWebsite</finalName>
+        <finalName>AlignWebsitePublic</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
