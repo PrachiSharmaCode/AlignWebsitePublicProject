@@ -32,6 +32,7 @@ public class PublicFacing {
     MultipleValueAggregatedDataDao multipleValueAggregatedDataDao = new MultipleValueAggregatedDataDao();
 
     /**
+     * Request 1
      * This is the function to get top n undergraduate schools
      *
      * @param topUnderGradSchools
@@ -42,18 +43,22 @@ public class PublicFacing {
     @Path("top-undergradschools")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUndergradSchools(TopUnderGradSchools topUnderGradSchools) throws SQLException {
-		List<TopUndergradSchools> undergrad = new ArrayList();
+    public Response getUndergradSchools(TopUnderGradSchools topUnderGradSchools){
+		List<TopUndergradSchools> undergrad;
+		int number;
+		
 		try {
-            int number = topUnderGradSchools.getNumber();
-            if (number < 1) {
-                return Response.status(Response.Status.BAD_REQUEST).
-                        entity("The number can't be less than one").build();
-            }
+           number = topUnderGradSchools.getNumber();
+		} catch (Exception e) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(e).build();
+        }
+		
+		try {
 			undergrad = undergraduatesPublicDao.getTopUndergradSchools(number);
 		} catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+		
 		return Response.status(Response.Status.OK).entity(undergrad).build();
     }
 
@@ -69,14 +74,22 @@ public class PublicFacing {
     @Path("top-coops")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTopCoops(TopCoopsNumber topCoopsNumber) throws SQLException {
-        List<TopCoops> coops = new ArrayList();
+    public Response getTopCoops(TopCoopsNumber topCoopsNumber){
+        List<TopCoops> coops;
+        int number;
+		
 		try {
-            int number = topCoopsNumber.getNumber();
+           number = topCoopsNumber.getNumber();
+		} catch (Exception e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+		try {
             coops = workExperiencesPublicDao.getTopCoops(number);
 		} catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+		
 		return Response.status(Response.Status.OK).entity(coops).build();
     }
 
@@ -92,14 +105,22 @@ public class PublicFacing {
     @Path("top-undergraddegrees")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUndergradDegrees(TopUnderGradDegreesNumber topUnderGradDegreesNumber) throws SQLException {
-		List<TopUndergradDegrees> degrees = new ArrayList();
+    public Response getUndergradDegrees(TopUnderGradDegreesNumber topUnderGradDegreesNumber){
+		List<TopUndergradDegrees> degrees;
+		int number;
+		
 		try {
-			int number = topUnderGradDegreesNumber.getNumber();
+           number = topUnderGradDegreesNumber.getNumber();
+		} catch (Exception e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+		
+		try {
             degrees = undergraduatesPublicDao.getTopUndergradDegrees(number);
 		} catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+		
 		return Response.status(Response.Status.OK).entity(degrees).build();
     }
 
