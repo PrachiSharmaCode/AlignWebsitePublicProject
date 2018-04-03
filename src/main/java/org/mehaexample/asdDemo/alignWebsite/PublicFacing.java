@@ -46,13 +46,19 @@ public class PublicFacing {
 
         List<TopUndergradSchools> undergrad = new ArrayList();
 
-        int number = topUnderGradSchools.getNumber();
-        if (number < 1) {
-            return Response.status(Response.Status.BAD_REQUEST).
-                    entity("The number can't be less than one").build();
-        }
 
-        undergrad = undergraduatesPublicDao.getTopUndergradSchools(number);
+        try {
+            int number = topUnderGradSchools.getNumber();
+            if (number < 1) {
+                return Response.status(Response.Status.BAD_REQUEST).
+                        entity("The number can't be less than one").build();
+            }
+
+            undergrad = undergraduatesPublicDao.getTopUndergradSchools(number);
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         return Response.status(Response.Status.OK).entity(undergrad).build();
     }
@@ -73,7 +79,13 @@ public class PublicFacing {
         List<TopCoops> coops = new ArrayList();
         int number = topCoopsNumber.getNumber();
 
-        coops = workExperiencesPublicDao.getTopCoops(number);
+        try {
+            coops = workExperiencesPublicDao.getTopCoops(number);
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         return Response.status(Response.Status.OK).entity(coops).build();
     }
@@ -95,7 +107,12 @@ public class PublicFacing {
         List<TopUndergradDegrees> degrees = new ArrayList();
         int number = topUnderGradDegreesNumber.getNumber();
 
-        degrees = undergraduatesPublicDao.getTopUndergradDegrees(number);
+        try {
+            degrees = undergraduatesPublicDao.getTopUndergradDegrees(number);
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         return Response.status(Response.Status.OK).entity(degrees).build();
     }
@@ -117,7 +134,12 @@ public class PublicFacing {
         List<TopGradYears> gradYears = new ArrayList();
         int number = topGraduationYearsNumber.getNumber();
 
-        gradYears = studentsPublicDao.getTopGraduationYears(number);
+        try {
+            gradYears = studentsPublicDao.getTopGraduationYears(number);
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         return Response.status(Response.Status.OK).entity(gradYears).build();
     }
@@ -133,7 +155,12 @@ public class PublicFacing {
     @Path("all-schools")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllSchools() {
-        List<String> allUnderGradSchools = undergraduatesPublicDao.getListOfAllSchools();
+        List<String> allUnderGradSchools = new ArrayList<>();
+        try {
+            allUnderGradSchools = undergraduatesPublicDao.getListOfAllSchools();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         return Response.status(Response.Status.OK).entity(allUnderGradSchools).build();
     }
@@ -150,7 +177,14 @@ public class PublicFacing {
     @Path("/all-coops")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCoopCompanies() {
-        List<String> listOfAllCoopCompanies = workExperiencesPublicDao.getListOfAllCoopCompanies();
+        List<String> listOfAllCoopCompanies = new ArrayList<>();
+
+        try {
+            listOfAllCoopCompanies = workExperiencesPublicDao.getListOfAllCoopCompanies();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         return Response.status(Response.Status.OK).entity(listOfAllCoopCompanies).build();
     }
@@ -169,7 +203,11 @@ public class PublicFacing {
     public Response getAllUndergradDegrees() throws SQLException {
         List<String> degrees = new ArrayList();
 
-        degrees = undergraduatesPublicDao.getListOfAllUndergraduateDegrees();
+        try {
+            degrees = undergraduatesPublicDao.getListOfAllUndergraduateDegrees();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         return Response.status(Response.Status.OK).entity(degrees).build();
     }
@@ -188,7 +226,11 @@ public class PublicFacing {
     public Response getAllGradYears() throws SQLException {
         List<Integer> years = new ArrayList();
 
-        years = studentsPublicDao.getListOfAllGraduationYears();
+        try {
+            years = studentsPublicDao.getListOfAllGraduationYears();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         return Response.status(Response.Status.OK).entity(years).build();
     }
@@ -206,7 +248,12 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStudents() throws SQLException {
         List<StudentsPublic> studentList = new ArrayList();
-        studentList = studentsPublicDao.getListOfAllStudents();
+        try {
+            studentList = studentsPublicDao.getListOfAllStudents();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         return Response.status(Response.Status.OK).entity(studentList).build();
     }
@@ -267,11 +314,16 @@ public class PublicFacing {
         int numberOfMale;
         int numberOfFemale;
 
-        numberOfMale = singleValueAggregatedDataDao.getTotalMaleStudents();
-        numberOfFemale = singleValueAggregatedDataDao.getTotalFemaleStudents();
+        try {
+            numberOfMale = singleValueAggregatedDataDao.getTotalMaleStudents();
+            numberOfFemale = singleValueAggregatedDataDao.getTotalFemaleStudents();
 
-        genderBreakdown.add("Male: " + Integer.toString(numberOfMale));
-        genderBreakdown.add("Female: " + Integer.toString(numberOfFemale));
+            genderBreakdown.add("Male: " + Integer.toString(numberOfMale));
+            genderBreakdown.add("Female: " + Integer.toString(numberOfFemale));
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         return Response.status(Response.Status.OK).entity(genderBreakdown).build();
     }
@@ -298,11 +350,17 @@ public class PublicFacing {
         int numberOfFulltime;
         int numberOfPartTime;
 
-        numberOfFulltime = singleValueAggregatedDataDao.getTotalFullTimeStudents();
-        numberOfPartTime = singleValueAggregatedDataDao.getTotalPartTimeStudents();
 
-        enrollment.add("Fulltime : " + Integer.toString(numberOfFulltime));
-        enrollment.add("Parttime: " + Integer.toString(numberOfPartTime));
+        try {
+            numberOfFulltime = singleValueAggregatedDataDao.getTotalFullTimeStudents();
+            numberOfPartTime = singleValueAggregatedDataDao.getTotalPartTimeStudents();
+
+            enrollment.add("Fulltime : " + Integer.toString(numberOfFulltime));
+            enrollment.add("Parttime: " + Integer.toString(numberOfPartTime));
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         return Response.status(Response.Status.OK).entity(enrollment).build();
     }
@@ -317,11 +375,16 @@ public class PublicFacing {
         int numberOfGraduated;
         int numberOfTerminated;
 
-        numberOfGraduated = singleValueAggregatedDataDao.getTotalGraduatedStudents();
-        numberOfTerminated = singleValueAggregatedDataDao.getTotalDroppedOutStudents();
+        try {
+            numberOfGraduated = singleValueAggregatedDataDao.getTotalGraduatedStudents();
+            numberOfTerminated = singleValueAggregatedDataDao.getTotalDroppedOutStudents();
 
-        graduation.add("Fulltime : " + Integer.toString(numberOfGraduated));
-        graduation.add("Parttime: " + Integer.toString(numberOfTerminated));
+            graduation.add("Fulltime : " + Integer.toString(numberOfGraduated));
+            graduation.add("Parttime: " + Integer.toString(numberOfTerminated));
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         JSONObject jsonObj = new JSONObject(graduation);
         jsonObj.put("student", graduation);
@@ -356,15 +419,21 @@ public class PublicFacing {
         int studentInCharlotte;
         int studentInSiliconValley;
 
-        studentInBoston = singleValueAggregatedDataDao.getTotalStudentsInBoston();
-        studentInSeattle = singleValueAggregatedDataDao.getTotalStudentsInSeattle();
-        studentInCharlotte = singleValueAggregatedDataDao.getTotalStudentsInCharlotte();
-        studentInSiliconValley = singleValueAggregatedDataDao.getTotalStudentsInSiliconValley();
+        try {
+            studentInBoston = singleValueAggregatedDataDao.getTotalStudentsInBoston();
+            studentInSeattle = singleValueAggregatedDataDao.getTotalStudentsInSeattle();
+            studentInCharlotte = singleValueAggregatedDataDao.getTotalStudentsInCharlotte();
+            studentInSiliconValley = singleValueAggregatedDataDao.getTotalStudentsInSiliconValley();
 
-        campus.add("Boston : " + Integer.toString(studentInBoston));
-        campus.add("Seattle: " + Integer.toString(studentInSeattle));
-        campus.add("Charlotte : " + Integer.toString(studentInCharlotte));
-        campus.add("SiliconValley: " + Integer.toString(studentInSiliconValley));
+            campus.add("Boston : " + Integer.toString(studentInBoston));
+            campus.add("Seattle: " + Integer.toString(studentInSeattle));
+            campus.add("Charlotte : " + Integer.toString(studentInCharlotte));
+            campus.add("SiliconValley: " + Integer.toString(studentInSiliconValley));
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         JSONObject jsonObj = new JSONObject(campus);
         jsonObj.put("campus", campus);
@@ -382,12 +451,16 @@ public class PublicFacing {
         int studentWithScholarship;
         int studentWithoutScholarship;
 
+        try {
+            studentWithScholarship = singleValueAggregatedDataDao.getTotalStudentsWithScholarship();
+            studentWithoutScholarship = singleValueAggregatedDataDao.getTotalStudents();
 
-        studentWithScholarship = singleValueAggregatedDataDao.getTotalStudentsWithScholarship();
-        studentWithoutScholarship = singleValueAggregatedDataDao.getTotalStudents();
+            scholarship.add("StudentWithScholarship : " + Integer.toString(studentWithScholarship));
+            scholarship.add("non-Scholarship : " + Integer.toString(studentWithoutScholarship));
 
-        scholarship.add("StudentWithScholarship : " + Integer.toString(studentWithScholarship));
-        scholarship.add("non-Scholarship : " + Integer.toString(studentWithoutScholarship));
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         JSONObject jsonObj = new JSONObject(scholarship);
         jsonObj.put("scholarship", scholarship);
@@ -402,7 +475,13 @@ public class PublicFacing {
     public Response getListOfHighestEducation() throws SQLException {
 
         List<DataCount> education = new ArrayList();
-        education = multipleValueAggregatedDataDao.getListOfHighestDegreesCount();
+
+        try {
+            education = multipleValueAggregatedDataDao.getListOfHighestDegreesCount();
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         JSONObject jsonObj = new JSONObject(education);
         jsonObj.put("education", education);
