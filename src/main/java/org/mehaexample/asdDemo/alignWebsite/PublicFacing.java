@@ -45,15 +45,21 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUndergradSchools(TopUnderGradSchools topUnderGradSchools){
 		List<TopUndergradSchools> undergrad;
+		JSONArray result = new JSONArray();
+		
 		int number = topUnderGradSchools.getNumber();
 		
 		try {
 			undergrad = undergraduatesPublicDao.getTopUndergradSchools(number);
+			for(TopUndergradSchools school : undergrad){
+				JSONObject schoolJson = new JSONObject(school);
+				result.put(schoolJson.get("undergradSchool"));
+			}
 		} catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
 		
-		return Response.status(Response.Status.OK).entity(undergrad).build();
+		return Response.status(Response.Status.OK).entity(result.toString()).build();
     }
 
     /**
