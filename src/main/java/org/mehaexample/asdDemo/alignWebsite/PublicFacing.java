@@ -271,16 +271,16 @@ public class PublicFacing {
 		int end = 20;
 		
 		try{
-			if (studentSerachCriteria.getCoops().size() > 0) {
+			if (studentSerachCriteria.getCoops() != null) {
 				searchCriteriaMap.put("coop", studentSerachCriteria.getCoops());
 			}
-			if (studentSerachCriteria.getUndergraddegree().size() > 0) {
+			if (studentSerachCriteria.getUndergraddegree() != null) {
 				searchCriteriaMap.put("undergradDegree", studentSerachCriteria.getUndergraddegree());
 			}
-			if (studentSerachCriteria.getUndergradschool().size() > 0) {
+			if (studentSerachCriteria.getUndergradschool() != null) {
 				searchCriteriaMap.put("undergradSchool", studentSerachCriteria.getUndergradschool());
 			}
-			if (studentSerachCriteria.getGraduationyear().size() > 0) {
+			if (studentSerachCriteria.getGraduationyear() != null) {
 				searchCriteriaMap.put("graduationYear", studentSerachCriteria.getGraduationyear());
 			}
 			if (studentSerachCriteria.getEndindex() != null) {
