@@ -263,10 +263,10 @@ public class PublicFacing {
 				searchCriteriaMap.put("graduationYear", studentSerachCriteria.getGraduationyear());
 			}
 			if (studentSerachCriteria.getEndindex() != null) {
-				end = Integer.valueOf(input.getEndindex());
+				end = Integer.valueOf(studentSerachCriteria.getEndindex());
 			}
-			if (studentSerachCriteria.getBeginindex != null) {
-				begin = Integer.valueOf(input.getBeginindex());
+			if (studentSerachCriteria.getBeginindex() != null) {
+				begin = Integer.valueOf(studentSerachCriteria.getBeginindex());
 			}
 			studentRecords = studentsPublicDao.getPublicFilteredStudents(searchCriteriaMap, begin, end);
 		} catch (Exception e){
