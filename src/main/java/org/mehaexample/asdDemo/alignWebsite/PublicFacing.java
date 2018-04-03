@@ -78,15 +78,20 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopCoops(TopCoopsNumber topCoopsNumber){
         List<TopCoops> coops;
+		JSONArray result = new JSONArray();
         int number = topCoopsNumber.getNumber();
 
 		try {
             coops = workExperiencesPublicDao.getTopCoops(number);
+			for(TopCoops coop : coops){
+				JSONObject coopJson = new JSONObject(coop);
+				result.put(coopJson.get("coop"));
+			}
 		} catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
 		
-		return Response.status(Response.Status.OK).entity(coops).build();
+		return Response.status(Response.Status.OK).entity(result.toString()).build();
     }
 
     /**
@@ -104,15 +109,20 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUndergradDegrees(TopUnderGradDegreesNumber topUnderGradDegreesNumber){
 		List<TopUndergradDegrees> degrees;
+		JSONArray result = new JSONArray();
 		int number = topUnderGradDegreesNumber.getNumber();
 		
 		try {
             degrees = undergraduatesPublicDao.getTopUndergradDegrees(number);
+			for(TopUndergradDegrees degree : degrees){
+				JSONObject degreeJson = new JSONObject(degree);
+				result.put(degreeJson.get("undergradDegree"));
+			}
 		} catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
 		
-		return Response.status(Response.Status.OK).entity(degrees).build();
+		return Response.status(Response.Status.OK).entity(result.toString()).build();
     }
 
     /**
@@ -130,15 +140,20 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopGraduationYears(TopGraduationYearsNumber topGraduationYearsNumber){
 		List<TopGradYears> gradYears;
+		JSONArray result = new JSONArray();
         int number = topGraduationYearsNumber.getNumber();
         
 		try {
             gradYears = studentsPublicDao.getTopGraduationYears(number);
+			for(TopGradYears year : gradYears){
+				JSONObject yearJson = new JSONObject(year);
+				result.put(yearJson.get("graduationYear"));
+			}
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
 		
-		return Response.status(Response.Status.OK).entity(gradYears).build();
+		return Response.status(Response.Status.OK).entity(result.toString()).build();
     }
 
     /**
@@ -153,8 +168,7 @@ public class PublicFacing {
     @Path("all-schools")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllSchools() {
-        List<String> allUnderGradSchools;
-        
+        List<String> allUnderGradSchools;       
         try {
             allUnderGradSchools = undergraduatesPublicDao.getListOfAllSchools();
         } catch (Exception e) {
