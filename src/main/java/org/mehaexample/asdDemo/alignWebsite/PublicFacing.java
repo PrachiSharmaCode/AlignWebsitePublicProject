@@ -77,9 +77,10 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopCoops(TopCoopsNumber topCoopsNumber) throws SQLException {
         List<TopCoops> coops = new ArrayList();
-        int number = topCoopsNumber.getNumber();
+
 
         try {
+            int number = topCoopsNumber.getNumber();
             coops = workExperiencesPublicDao.getTopCoops(number);
 
         } catch (Exception e) {
@@ -105,9 +106,11 @@ public class PublicFacing {
     public Response getUndergradDegrees(TopUnderGradDegreesNumber topUnderGradDegreesNumber) throws SQLException {
 
         List<TopUndergradDegrees> degrees = new ArrayList();
-        int number = topUnderGradDegreesNumber.getNumber();
+
 
         try {
+
+            int number = topUnderGradDegreesNumber.getNumber();
             degrees = undergraduatesPublicDao.getTopUndergradDegrees(number);
 
         } catch (Exception e) {
@@ -132,9 +135,10 @@ public class PublicFacing {
     public Response getTopGraduationYears(TopGraduationYearsNumber topGraduationYearsNumber) throws SQLException {
 
         List<TopGradYears> gradYears = new ArrayList();
-        int number = topGraduationYearsNumber.getNumber();
+
 
         try {
+            int number = topGraduationYearsNumber.getNumber();
             gradYears = studentsPublicDao.getTopGraduationYears(number);
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -311,10 +315,11 @@ public class PublicFacing {
 
         List<String> genderBreakdown = new ArrayList<>();
 
-        int numberOfMale;
-        int numberOfFemale;
-
         try {
+
+            int numberOfMale;
+            int numberOfFemale;
+
             numberOfMale = singleValueAggregatedDataDao.getTotalMaleStudents();
             numberOfFemale = singleValueAggregatedDataDao.getTotalFemaleStudents();
 
@@ -335,7 +340,11 @@ public class PublicFacing {
     public Response getRace() throws SQLException {
 
         List<DataCount> race = new ArrayList();
-        race = multipleValueAggregatedDataDao.getListOfRacesCount();
+        try {
+            race = multipleValueAggregatedDataDao.getListOfRacesCount();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
         return Response.status(Response.Status.OK).entity(race).build();
     }
@@ -347,11 +356,10 @@ public class PublicFacing {
 
         List<String> enrollment = new ArrayList<>();
 
-        int numberOfFulltime;
-        int numberOfPartTime;
-
-
         try {
+            int numberOfFulltime;
+            int numberOfPartTime;
+
             numberOfFulltime = singleValueAggregatedDataDao.getTotalFullTimeStudents();
             numberOfPartTime = singleValueAggregatedDataDao.getTotalPartTimeStudents();
 
@@ -372,10 +380,10 @@ public class PublicFacing {
 
         List<String> graduation = new ArrayList<>();
 
-        int numberOfGraduated;
-        int numberOfTerminated;
-
         try {
+            int numberOfGraduated;
+            int numberOfTerminated;
+
             numberOfGraduated = singleValueAggregatedDataDao.getTotalGraduatedStudents();
             numberOfTerminated = singleValueAggregatedDataDao.getTotalDroppedOutStudents();
 
@@ -399,7 +407,13 @@ public class PublicFacing {
     public Response getListOfState() throws SQLException {
 
         List<DataCount> state = new ArrayList();
-        state = multipleValueAggregatedDataDao.getListOfStudentsStatesCount();
+        try {
+            state = multipleValueAggregatedDataDao.getListOfStudentsStatesCount();
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
 
         JSONObject jsonObj = new JSONObject(state);
         jsonObj.put("state", state);
@@ -414,12 +428,12 @@ public class PublicFacing {
 
         List<String> campus = new ArrayList<>();
 
-        int studentInBoston;
-        int studentInSeattle;
-        int studentInCharlotte;
-        int studentInSiliconValley;
-
         try {
+            int studentInBoston;
+            int studentInSeattle;
+            int studentInCharlotte;
+            int studentInSiliconValley;
+
             studentInBoston = singleValueAggregatedDataDao.getTotalStudentsInBoston();
             studentInSeattle = singleValueAggregatedDataDao.getTotalStudentsInSeattle();
             studentInCharlotte = singleValueAggregatedDataDao.getTotalStudentsInCharlotte();
@@ -448,10 +462,9 @@ public class PublicFacing {
 
         List<String> scholarship = new ArrayList<>();
 
-        int studentWithScholarship;
-        int studentWithoutScholarship;
-
         try {
+            int studentWithScholarship;
+            int studentWithoutScholarship;
             studentWithScholarship = singleValueAggregatedDataDao.getTotalStudentsWithScholarship();
             studentWithoutScholarship = singleValueAggregatedDataDao.getTotalStudents();
 
