@@ -13,15 +13,15 @@
         </property>
 
         <property name="hibernate.connection.url">
-            jdbc:mariadb://127.0.0.1:3305/AlignAdmin
+            jdbc:mariadb://${database.ip}:${admin.port}/AlignAdmin
         </property>
 
         <property name="hibernate.connection.username">
-           root
+            ${database.username}
         </property>
 
         <property name="hibernate.connection.password">
-           root
+            ${database.password}
         </property>
 
         <!-- List of XML mapping files -->
