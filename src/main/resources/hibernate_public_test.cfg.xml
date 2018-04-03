@@ -13,15 +13,15 @@
         </property>
 
         <property name="hibernate.connection.url">
-            jdbc:mariadb://${test.ip}:${test.port}/AlignPublic
+            jdbc:mariadb://127.0.0.1:3305/AlignPublic
         </property>
 
         <property name="hibernate.connection.username">
-            ${test.username}
+            root
         </property>
 
         <property name="hibernate.connection.password">
-            ${test.password}
+           root
         </property>
 
         <!-- List of XML mapping files -->
