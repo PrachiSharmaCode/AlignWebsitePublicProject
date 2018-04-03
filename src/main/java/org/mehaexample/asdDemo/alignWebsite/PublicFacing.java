@@ -1,6 +1,7 @@
 package org.mehaexample.asdDemo.alignWebsite;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -240,7 +241,7 @@ public class PublicFacing {
     @Path("students")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStudents(){
-        List<StudentsPublic> studentList;
+        List<StudentsPublic> studentList = new ArrayList<StudentsPublic>();
         
         try {
             studentList = studentsPublicDao.getListOfAllStudents();
