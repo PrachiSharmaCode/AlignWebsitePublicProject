@@ -54,6 +54,7 @@ public class PublicFacing {
                 JSONObject schoolJson = new JSONObject(school);
                 result.put(schoolJson.get("undergradSchool"));
             }
+			result.put("No school");
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -84,6 +85,7 @@ public class PublicFacing {
                 JSONObject coopJson = new JSONObject(coop);
                 result.put(coopJson.get("coop"));
             }
+			result.put("No coop");
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -114,6 +116,7 @@ public class PublicFacing {
                 JSONObject degreeJson = new JSONObject(degree);
                 result.put(degreeJson.get("undergradDegree"));
             }
+			result.put("No degree");
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -307,9 +310,9 @@ public class PublicFacing {
 			studentList = studentList.subList(begin, end);
 			
 			for(StudentsPublic student : studentList){
-            	String undergradDegree = "";
-            	String undergradSchool = "";
-            	String coop = "";
+            	String undergradDegree = "No degree";
+            	String undergradSchool = "No school";
+            	String coop = "No coop";
             	if(student.getWorkExperiences().size() > 0){
             		coop = student.getWorkExperiences().get(0).getCoop();
             	}
@@ -507,8 +510,35 @@ public class PublicFacing {
         }
         return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
     }
+	
+	// Request 19
+	@GET
+    @Path("undergradmajor-percent")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getListOfUndergradMajorPercent() {
+        List<DataCount> major;
+		JSONObject resultObj = new JSONObject();
+		int totalCount = 0;
+        try{
+        	major = multipleValueAggregatedDataDao.getListOfUndergraduateMajorsCount();
+			
+			for(int i=0; i<major.size();i++){
+    			totalCount += major.get(i).getDataValue();
+            }
+			
+    		for(int i=0; i<major.size();i++){
+    			float percent = (float) (( (float) major.get(i).getDataValue()/(float) totalCount ) * 100.00);
+    			resultObj.put(major.get(i).getDataKey().toLowerCase(), Float.toString(percent));
+    		}
+			
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
+        return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
+    }
 
-    // Request 19
+    // Request 20
     @GET
     @Path("highest-education")
     @Consumes(MediaType.APPLICATION_JSON)
