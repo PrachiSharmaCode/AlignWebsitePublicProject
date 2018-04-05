@@ -142,7 +142,7 @@ public class PublicFacing {
             gradYears = studentsPublicDao.getTopGraduationYears(topGraduationYearsNumber);
             for (TopGradYears year : gradYears) {
                 JSONObject yearJson = new JSONObject(year);
-                result.put(yearJson.get("graduationYear"));
+                result.put(Integer.toString((int) yearJson.get("graduationYear")));
             }
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
@@ -188,7 +188,6 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCoopCompanies() {
         List<String> listOfAllCoopCompanies;
-        JSONArray result = new JSONArray();
         try {
             listOfAllCoopCompanies = workExperiencesPublicDao.getListOfAllCoopCompanies();
 
@@ -236,17 +235,19 @@ public class PublicFacing {
     @GET
     @Path("graduationyears")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllGradYears() {
+    public Response getAllGradYears(){
         List<Integer> years;
-
-        try {
+		JSONArray result = new JSONArray();
+		try {
             years = studentsPublicDao.getListOfAllGraduationYears();
-
+            for(Integer year : years){
+				result.put(Integer.toString(year));
+			}
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
-
-        return Response.status(Response.Status.OK).entity(years).build();
+		
+		return Response.status(Response.Status.OK).entity(result.toString()).build();
     }
 
     /**
@@ -333,9 +334,13 @@ public class PublicFacing {
         try {
             int numberOfMale = singleValueAggregatedDataDao.getTotalMaleStudents();
             int numberOfFemale = singleValueAggregatedDataDao.getTotalFemaleStudents();
+			
+			int totalCount = numberOfMale + numberOfFemale;
+			float malepercent = (float) (((float) numberOfMale/(float) totalCount) * 100.00);
+			float femalepercent = (float) (((float) numberOfFemale/(float) totalCount) * 100.00);
 
-            jsonObj.put("male", numberOfMale);
-            jsonObj.put("female", numberOfFemale);
+            jsonObj.put("male", Float.toString(malepercent));
+            jsonObj.put("female", Float.toString(femalepercent));
 
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
@@ -343,23 +348,33 @@ public class PublicFacing {
         return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
     }
 
-    // Request 12
+ // Request 12
     @GET
     @Path("race")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRace() {
-        List<DataCount> race;
+    public Response getRace(){
+		List<DataCount> race;
+		JSONObject resultObj = new JSONObject();
+		int totalCount = 0;
+		
         try {
             race = multipleValueAggregatedDataDao.getListOfRacesCount();
-
+            
+            for(int i=0; i<race.size();i++){
+    			totalCount += race.get(i).getDataValue();
+            }
+    		for(int i=0; i<race.size();i++){
+    			float percent = (float) (( (float) race.get(i).getDataValue()/(float) totalCount ) * 100.00);
+    			resultObj.put(race.get(i).getDataKey().toLowerCase(), Float.toString(percent));
+    		}
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
-        return Response.status(Response.Status.OK).entity(race).build();
+		return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
     }
 
-    // Request 13
+    // Request 14
     @GET
     @Path("enrollment")
     @Produces(MediaType.APPLICATION_JSON)
@@ -368,28 +383,12 @@ public class PublicFacing {
         try {
             int numberOfFulltime = singleValueAggregatedDataDao.getTotalFullTimeStudents();
             int numberOfPartTime = singleValueAggregatedDataDao.getTotalPartTimeStudents();
+			int totalCount = numberOfFulltime + numberOfPartTime;
+			float fulltimepercent = (float) (((float) numberOfFulltime/(float) totalCount) * 100.00);
+			float parttimepercent = (float) (((float) numberOfPartTime/(float) totalCount) * 100.00);
 
-            jsonObj.put("full-time", numberOfFulltime);
-            jsonObj.put("part-time", numberOfPartTime);
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
-        return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
-    }
-
-    // Request 14
-    @GET
-    @Path("graduation")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getGraduation() {
-        JSONObject jsonObj = new JSONObject();
-        try {
-            int numberOfGraduated = singleValueAggregatedDataDao.getTotalGraduatedStudents();
-            int numberOfTerminated = singleValueAggregatedDataDao.getTotalDroppedOutStudents();
-
-            jsonObj.put("graduated", numberOfGraduated);
-            jsonObj.put("terminated", numberOfTerminated);
-
+            jsonObj.put("full-time", Float.toString(fulltimepercent));
+            jsonObj.put("part-time", Float.toString(parttimepercent));
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -398,22 +397,59 @@ public class PublicFacing {
 
     // Request 15
     @GET
+    @Path("graduation")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getGraduation() {
+        JSONObject jsonObj = new JSONObject();
+        float graduatedpercent = 0;
+        float terminatedpercent = 0;
+        try {
+            int numberOfGraduated = singleValueAggregatedDataDao.getTotalGraduatedStudents();
+            int numberOfTerminated = singleValueAggregatedDataDao.getTotalDroppedOutStudents();
+			int totalCount = numberOfGraduated + numberOfTerminated;
+			
+			if(numberOfGraduated > 0 && numberOfTerminated > 0){
+				graduatedpercent = (float) (((float) numberOfGraduated/(float) totalCount) * 100.00);
+				terminatedpercent = (float) (((float) numberOfTerminated/(float) totalCount) * 100.00);
+			}
+			
+            jsonObj.put("graduated", Float.toString(graduatedpercent));
+            jsonObj.put("terminated", Float.toString(terminatedpercent));
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
+        return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
+    }
+
+    // Request 16
+    @GET
     @Path("state")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getListOfState() {
         List<DataCount> state;
-        try {
-
-            state = multipleValueAggregatedDataDao.getListOfStudentsStatesCount();
-
+		JSONObject resultObj = new JSONObject();
+		int totalCount = 0;
+        try{
+			state = multipleValueAggregatedDataDao.getListOfStudentsStatesCount();
+			
+			for(int i=0; i<state.size();i++){
+    			totalCount += state.get(i).getDataValue();
+            }
+			
+    		for(int i=0; i<state.size();i++){
+    			float percent = (float) (( (float) state.get(i).getDataValue()/(float) totalCount ) * 100.00);
+    			resultObj.put(state.get(i).getDataKey().toLowerCase(), Float.toString(percent));
+    		}
+			
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
-        return Response.status(Response.Status.OK).entity(state).build();
+        return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
     }
 
-    // Request 16
+    // Request 17
     @GET
     @Path("campus")
     @Produces(MediaType.APPLICATION_JSON)
@@ -424,32 +460,16 @@ public class PublicFacing {
             int studentInSeattle = singleValueAggregatedDataDao.getTotalStudentsInSeattle();
             int studentInCharlotte = singleValueAggregatedDataDao.getTotalStudentsInCharlotte();
             int studentInSiliconValley = singleValueAggregatedDataDao.getTotalStudentsInSiliconValley();
+			int totalCount = studentInBoston + studentInSeattle + studentInCharlotte + studentInSiliconValley;
+			float bostonpercent = (float) (((float) studentInBoston/(float) totalCount) * 100.00);
+			float seattlepercent = (float) (((float) studentInSeattle/(float) totalCount) * 100.00);
+			float charlottepercent = (float) (((float) studentInCharlotte/(float) totalCount) * 100.00);
+			float siliconvalleypercent = (float) (((float) studentInSiliconValley/(float) totalCount) * 100.00);
 
-            jsonObj.put("boston", studentInBoston);
-            jsonObj.put("seattle", studentInSeattle);
-            jsonObj.put("charlotte", studentInCharlotte);
-            jsonObj.put("siliconvalley", studentInSiliconValley);
-
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
-        return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
-    }
-
-    // Request 17
-    @GET
-    @Path("scholarship")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getScholarshipData() {
-        ;
-        JSONObject jsonObj = new JSONObject();
-        try {
-
-            int studentWithScholarship = singleValueAggregatedDataDao.getTotalStudentsWithScholarship();
-            int studentWithoutScholarship = singleValueAggregatedDataDao.getTotalStudents();
-
-            jsonObj.put("scholarship", studentWithScholarship);
-            jsonObj.put("none", studentWithoutScholarship);
+            jsonObj.put("boston", Float.toString(bostonpercent));
+            jsonObj.put("seattle", Float.toString(seattlepercent));
+            jsonObj.put("charlotte", Float.toString(charlottepercent));
+            jsonObj.put("siliconvalley", Float.toString(siliconvalleypercent));
 
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
@@ -459,19 +479,47 @@ public class PublicFacing {
 
     // Request 18
     @GET
-    @Path("highest-education")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("scholarship")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getListOfHighestEducation() {
-        List<DataCount> education;
+    public Response getScholarshipData(){;
+		JSONObject jsonObj = new JSONObject();
         try {
-
-            education = multipleValueAggregatedDataDao.getListOfHighestDegreesCount();
-
+            int studentWithScholarship = singleValueAggregatedDataDao.getTotalStudentsWithScholarship();
+            int studentWithoutScholarship = singleValueAggregatedDataDao.getTotalStudents();
+			int totalCount = studentWithScholarship + studentWithoutScholarship ;
+			float scholarshippercent = (float) (((float) studentWithScholarship/(float) totalCount) * 100.00);
+			float nonepercent = (float) (((float) studentWithoutScholarship/(float) totalCount) * 100.00);
+			jsonObj.put("scholarship", Float.toString(scholarshippercent));
+			jsonObj.put("none", Float.toString(nonepercent));
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
-        return Response.status(Response.Status.OK).entity(education).build();
+        return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
+    }
+
+    // Request 19
+    @GET
+    @Path("highest-education")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getListOfHighestEducation(){
+		List<DataCount> education;
+		JSONObject resultObj = new JSONObject();
+		int totalCount = 0;
+        try {
+            education = multipleValueAggregatedDataDao.getListOfHighestDegreesCount();
+            for(int i=0; i<education.size();i++){
+    			totalCount += education.get(i).getDataValue();
+            }
+			
+    		for(int i=0; i<education.size();i++){
+    			float percent = (float) (( (float) education.get(i).getDataValue()/(float) totalCount ) * 100.00);
+    			resultObj.put(education.get(i).getDataKey().toLowerCase(), Float.toString(percent));
+    		}
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
+        return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
     }
 
 }
