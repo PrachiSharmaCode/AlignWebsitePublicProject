@@ -250,30 +250,6 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(result.toString()).build();
     }
 
-    /**
-     * Request 9
-     * This is the function to get all students.
-     * The body should be in the JSON format like below:
-     * <p>
-     * http://localhost:8080/alignWebsite/webapi/public-facing/students
-     *
-     * @return List of all students
-     */
-    @GET
-    @Path("students")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllStudents() {
-        List<StudentsPublic> studentList = new ArrayList<StudentsPublic>();
-
-        try {
-            studentList = studentsPublicDao.getListOfAllStudents();
-
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
-
-        return Response.status(Response.Status.OK).entity(studentList).build();
-    }
 
     /**
      * Request 10
@@ -289,40 +265,75 @@ public class PublicFacing {
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchStudent(StudentSerachCriteria studentSerachCriteria) {
         Map<String, List<String>> searchCriteriaMap = new HashMap<>();
-        List<StudentsPublic> studentRecords;
-        int begin = 1;
-        int end = 20;
-
-        try {
-            if (studentSerachCriteria.getCoops() != null) {
-                searchCriteriaMap.put("coop", studentSerachCriteria.getCoops());
-            }
-            if (studentSerachCriteria.getUndergraddegree() != null) {
-                searchCriteriaMap.put("undergradDegree", studentSerachCriteria.getUndergraddegree());
-            }
-            if (studentSerachCriteria.getUndergradschool() != null) {
-                searchCriteriaMap.put("undergradSchool", studentSerachCriteria.getUndergradschool());
-            }
-            if (studentSerachCriteria.getGraduationyear() != null) {
-                searchCriteriaMap.put("graduationYear", studentSerachCriteria.getGraduationyear());
-            }
-            if (studentSerachCriteria.getEndindex() != null) {
-                end = Integer.valueOf(studentSerachCriteria.getEndindex());
-            }
-            if (studentSerachCriteria.getBeginindex() != null) {
-                begin = Integer.valueOf(studentSerachCriteria.getBeginindex());
-            }
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e).build();
-        }
-
-        try {
-            studentRecords = studentsPublicDao.getPublicFilteredStudents(searchCriteriaMap, begin, end);
+		List<StudentsPublic> studentList;
+		JSONObject finalObj = new JSONObject();
+		JSONArray resultArray = new JSONArray();
+		int begin = 1;
+		int end = 20;
+		
+		try{
+			if (studentSerachCriteria.getCoops() != null) {
+				if (studentSerachCriteria.getCoops().size() > 0)
+					searchCriteriaMap.put("coop", studentSerachCriteria.getCoops());
+			}
+			if (studentSerachCriteria.getUndergraddegree() != null) {
+				if (studentSerachCriteria.getUndergraddegree().size() > 0)
+					searchCriteriaMap.put("undergradDegree", studentSerachCriteria.getUndergraddegree());
+			}
+			if (studentSerachCriteria.getUndergradschool() != null) {
+				if (studentSerachCriteria.getUndergradschool().size() > 0)
+					searchCriteriaMap.put("undergradSchool", studentSerachCriteria.getUndergradschool());
+			}
+			if (studentSerachCriteria.getGraduationyear() != null) {
+				if (studentSerachCriteria.getGraduationyear().size() > 0)
+					searchCriteriaMap.put("graduationYear", studentSerachCriteria.getGraduationyear());
+			}
+			if (studentSerachCriteria.getEndindex() != null) {
+				end = Integer.valueOf(studentSerachCriteria.getEndindex());
+			}
+			if (studentSerachCriteria.getBeginindex() != null) {
+				begin = Integer.valueOf(studentSerachCriteria.getBeginindex());
+			}
+		} catch (Exception e){
+			return Response.status(Response.Status.BAD_REQUEST).entity(e).build();
+		}
+		
+		try {
+			studentList = studentsPublicDao.getPublicFilteredStudents(searchCriteriaMap, 1, 9999);
+			
+			if(studentList.size() <= end){
+				finalObj.put("eof", true);
+			}
+			studentList = studentList.subList(begin, end);
+			
+			for(StudentsPublic student : studentList){
+            	String undergradDegree = "";
+            	String undergradSchool = "";
+            	String coop = "";
+            	if(student.getWorkExperiences().size() > 0){
+            		coop = student.getWorkExperiences().get(0).getCoop();
+            	}
+            	if(student.getUndergraduates().size() > 0){
+            		undergradDegree = student.getUndergraduates().get(0).getUndergradDegree();
+            		undergradSchool = student.getUndergraduates().get(0).getUndergradSchool();
+            	}
+            	
+            	JSONObject jsonObj = new JSONObject();
+            	jsonObj.put("graduationyear", Integer.toString(student.getGraduationYear()));
+            	jsonObj.put("coop", coop);
+            	jsonObj.put("undergraddegree", undergradDegree);
+            	jsonObj.put("undergradschool", undergradSchool);
+            	
+            	resultArray.put(jsonObj);
+			}
+			
+			finalObj.put("students", resultArray);
+			
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
-
-        return Response.status(Response.Status.OK).entity(studentRecords).build();
+		
+        return Response.status(Response.Status.OK).entity(finalObj.toString()).build();
     }
 
     // Request 11
