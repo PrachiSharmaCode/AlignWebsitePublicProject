@@ -79,6 +79,10 @@ public class MultipleValueAggregatedDataDao {
     return findDataCountByTerm(LIST_OF_STUDENTS_STATES);
   }
 
+  public List<DataCount> getListOfUndergraduateMajorsCount() {
+    return findDataCountByTerm(LIST_OF_BACHELOR_DEGREES);
+  }
+
   public List<DataCount> getListOfHighestDegreesCount() {
     return findDataCountByTerm(LIST_OF_DEGREES);
   }
