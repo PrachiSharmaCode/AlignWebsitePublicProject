@@ -54,7 +54,6 @@ public class PublicFacing {
                 JSONObject schoolJson = new JSONObject(school);
                 result.put(schoolJson.get("undergradSchool"));
             }
-			result.put("No school");
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -85,7 +84,6 @@ public class PublicFacing {
                 JSONObject coopJson = new JSONObject(coop);
                 result.put(coopJson.get("coop"));
             }
-			result.put("No coop");
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -116,7 +114,6 @@ public class PublicFacing {
                 JSONObject degreeJson = new JSONObject(degree);
                 result.put(degreeJson.get("undergradDegree"));
             }
-			result.put("No degree");
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
