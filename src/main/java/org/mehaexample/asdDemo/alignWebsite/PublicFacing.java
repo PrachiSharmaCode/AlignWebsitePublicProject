@@ -559,5 +559,4 @@ public class PublicFacing {
         }
         return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
     }
-
 }
