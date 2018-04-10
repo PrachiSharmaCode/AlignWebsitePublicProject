@@ -305,7 +305,11 @@ public class PublicFacing {
 			
 			finalObj.put("quantity", quantity);
 			
-			studentList = studentList.subList(begin, end);
+			if(end > quantity && begin < quantity){
+				studentList = studentList.subList(begin, quantity);
+			} else if (end < quantity && begin < quantity){
+				studentList = studentList.subList(begin, end);
+			}			
 			
 			for(StudentsPublic student : studentList){
             	String undergradDegree = "No degree";
