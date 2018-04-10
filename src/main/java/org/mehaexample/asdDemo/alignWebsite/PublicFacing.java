@@ -268,25 +268,22 @@ public class PublicFacing {
 		List<StudentsPublic> studentList;
 		JSONObject finalObj = new JSONObject();
 		JSONArray resultArray = new JSONArray();
+		int quantity = 0;
 		int begin = 1;
 		int end = 20;
 		
 		try{
-			if (studentSerachCriteria.getCoops() != null) {
-				if (studentSerachCriteria.getCoops().size() > 0)
-					searchCriteriaMap.put("coop", studentSerachCriteria.getCoops());
+			if (studentSerachCriteria.getCoops() != null && studentSerachCriteria.getCoops().size() > 0) {
+				searchCriteriaMap.put("coop", studentSerachCriteria.getCoops());
 			}
-			if (studentSerachCriteria.getUndergraddegree() != null) {
-				if (studentSerachCriteria.getUndergraddegree().size() > 0)
-					searchCriteriaMap.put("undergradDegree", studentSerachCriteria.getUndergraddegree());
+			if (studentSerachCriteria.getUndergraddegree() != null && studentSerachCriteria.getUndergraddegree().size() > 0) {
+				searchCriteriaMap.put("undergradDegree", studentSerachCriteria.getUndergraddegree());
 			}
-			if (studentSerachCriteria.getUndergradschool() != null) {
-				if (studentSerachCriteria.getUndergradschool().size() > 0)
-					searchCriteriaMap.put("undergradSchool", studentSerachCriteria.getUndergradschool());
+			if (studentSerachCriteria.getUndergradschool() != null && studentSerachCriteria.getUndergradschool().size() > 0) {
+				searchCriteriaMap.put("undergradSchool", studentSerachCriteria.getUndergradschool());
 			}
-			if (studentSerachCriteria.getGraduationyear() != null) {
-				if (studentSerachCriteria.getGraduationyear().size() > 0)
-					searchCriteriaMap.put("graduationYear", studentSerachCriteria.getGraduationyear());
+			if (studentSerachCriteria.getGraduationyear() != null && studentSerachCriteria.getGraduationyear().size() > 0) {
+				searchCriteriaMap.put("graduationYear", studentSerachCriteria.getGraduationyear());
 			}
 			if (studentSerachCriteria.getEndindex() != null) {
 				end = Integer.valueOf(studentSerachCriteria.getEndindex());
@@ -299,11 +296,11 @@ public class PublicFacing {
 		}
 		
 		try {
+			quantity = studentsPublicDao.getPublicFilteredStudentsCount(searchCriteriaMap);
 			studentList = studentsPublicDao.getPublicFilteredStudents(searchCriteriaMap, 1, 9999);
 			
-			if(studentList.size() <= end){
-				finalObj.put("eof", true);
-			}
+			finalObj.put("quantity", quantity);
+			
 			studentList = studentList.subList(begin, end);
 			
 			for(StudentsPublic student : studentList){
