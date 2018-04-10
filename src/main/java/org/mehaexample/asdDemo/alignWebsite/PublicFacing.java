@@ -269,7 +269,7 @@ public class PublicFacing {
 		JSONObject finalObj = new JSONObject();
 		JSONArray resultArray = new JSONArray();
 		int quantity = 0;
-		int begin = 1;
+		int begin = 0;
 		int end = 20;
 		
 		try{
