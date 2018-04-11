@@ -568,7 +568,7 @@ public class PublicFacing {
 
 	// Machine Learning API
 	@GET
-	@Path("/stats/graduates")
+	@Path("stats/graduates")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTotalGraduates() {
 		JSONObject jsonObj = new JSONObject();
@@ -583,7 +583,7 @@ public class PublicFacing {
 
 	// Machine Learning API
 	@GET
-	@Path("/stats/total-student-count")
+	@Path("stats/total-student-count")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTotalStudents1() {
 		JSONObject jsonObj = new JSONObject();
@@ -598,7 +598,7 @@ public class PublicFacing {
 
 	// Machine Learning API
 	@POST
-	@Path("/stats/student-count")
+	@Path("stats/student-count")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTotalStudents(StudentStatsObject input) {
