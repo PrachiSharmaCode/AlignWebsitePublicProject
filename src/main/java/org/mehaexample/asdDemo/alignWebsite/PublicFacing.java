@@ -364,31 +364,31 @@ public class PublicFacing {
         return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
     }
 
- // Request 12
-    @GET
-    @Path("race")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getRace(){
-		List<DataCount> race;
-		JSONObject resultObj = new JSONObject();
-		int totalCount = 0;
-		
-        try {
-            race = multipleValueAggregatedDataDao.getListOfRacesCount();
-            
-            for(int i=0; i<race.size();i++){
-    			totalCount += race.get(i).getDataValue();
-            }
-    		for(int i=0; i<race.size();i++){
-    			float percent = (float) (( (float) race.get(i).getDataValue()/(float) totalCount ) * 100.00);
-    			resultObj.put(race.get(i).getDataKey().toLowerCase(), Float.toString(percent));
-    		}
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
-		return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
-    }
+// // Request 12
+//    @GET
+//    @Path("race")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getRace(){
+//		List<DataCount> race;
+//		JSONObject resultObj = new JSONObject();
+//		int totalCount = 0;
+//
+//        try {
+//            race = multipleValueAggregatedDataDao.getListOfRacesCount();
+//
+//            for(int i=0; i<race.size();i++){
+//    			totalCount += race.get(i).getDataValue();
+//            }
+//    		for(int i=0; i<race.size();i++){
+//    			float percent = (float) (( (float) race.get(i).getDataValue()/(float) totalCount ) * 100.00);
+//    			resultObj.put(race.get(i).getDataKey().toLowerCase(), Float.toString(percent));
+//    		}
+//        } catch (Exception e) {
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+//        }
+//		return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
+//    }
 
     // Request 14
     @GET

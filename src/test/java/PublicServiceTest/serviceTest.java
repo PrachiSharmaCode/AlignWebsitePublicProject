@@ -106,14 +106,14 @@ public class serviceTest {
         Assert.assertEquals(200, res.getStatus());
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void getRace() {
-        JSONObject race = new JSONObject();
-        Response res = publicFacing.getRace();
-        Assert.assertEquals(race.toString(), res.getEntity());
-        Assert.assertEquals(200, res.getStatus());
-    }
+//    @SuppressWarnings("unchecked")
+//    @Test
+//    public void getRace() {
+//        JSONObject race = new JSONObject();
+//        Response res = publicFacing.getRace();
+//        Assert.assertEquals(race.toString(), res.getEntity());
+//        Assert.assertEquals(200, res.getStatus());
+//    }
 
     @SuppressWarnings("unchecked")
     @Test
