@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.mehaexample.asdDemo.dao.alignpublic.*;
 import org.mehaexample.asdDemo.model.alignpublic.*;
 import org.mehaexample.asdDemo.restModels.StudentSerachCriteria;
+import org.mehaexample.asdDemo.restModels.StudentStatsObject;
 import org.mehaexample.asdDemo.restModels.TopCoopsNumber;
 import org.mehaexample.asdDemo.restModels.TopGraduationYearsNumber;
 import org.mehaexample.asdDemo.restModels.TopUnderGradDegreesNumber;
@@ -567,13 +568,13 @@ public class PublicFacing {
 
 	// Machine Learning API
 	@GET
-	@Path("/stats/num-graduates")
+	@Path("/stats/graduates")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTotalGraduates() {
 		JSONObject jsonObj = new JSONObject();
 		try {
 			int totalGraduateNumber = singleValueAggregatedDataDao.getTotalGraduatedStudents();
-			jsonObj.put("TotalGraduateStudents", Float.toString(totalGraduateNumber));
+			jsonObj.put("graduates", Integer.toString(totalGraduateNumber));
 		} catch (Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
 		}
@@ -582,13 +583,13 @@ public class PublicFacing {
 
 	// Machine Learning API
 	@GET
-	@Path("/stats/student-numbers")
+	@Path("/stats/total-student-count")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTotalStudents() {
+	public Response getTotalStudents1() {
 		JSONObject jsonObj = new JSONObject();
 		try {
 			int totalGraduateNumber = singleValueAggregatedDataDao.getTotalStudents();
-			jsonObj.put("TotalStudents", Float.toString(totalGraduateNumber));
+			jsonObj.put("studentcount", Integer.toString(totalGraduateNumber));
 		} catch (Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
 		}
@@ -596,14 +597,36 @@ public class PublicFacing {
 	}
 
 	// Machine Learning API
-	@GET
-	@Path("/stats/student-numbers/seattle")
+	@POST
+	@Path("/stats/student-count")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTotalStudentInseattle() {
+	public Response getTotalStudents(StudentStatsObject input) {
 		JSONObject jsonObj = new JSONObject();
+		List<String> campus = new ArrayList<String>();
+		int total = 0;
 		try {
-			int totalGraduateNumber = singleValueAggregatedDataDao.getTotalStudentsInSeattle();
-			jsonObj.put("TotalSeattleStudents", Float.toString(totalGraduateNumber));
+			if(input.getCampus().size() < 1){
+				campus.add("SEATTLE");
+				campus.add("BOSTON");
+				campus.add("CHARLOTTE");
+				campus.add("SILICON_VALLEY");
+				input.setCampus(campus);
+			}
+			
+			if(input.getCampus().contains("SEATTLE")){
+				total+= singleValueAggregatedDataDao.getTotalStudentsInSeattle();
+			}
+			if(input.getCampus().contains("BOSTON")){
+				total+= singleValueAggregatedDataDao.getTotalStudentsInBoston();
+			}
+			if(input.getCampus().contains("CHARLOTTE")){
+				total+= singleValueAggregatedDataDao.getTotalStudentsInCharlotte();
+			}
+			if(input.getCampus().contains("SILICON_VALLEY")){
+				total+= singleValueAggregatedDataDao.getTotalStudentsInSiliconValley();
+			}
+			jsonObj.put("studentcount", Integer.toString(total));
 		} catch (Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
 		}
