@@ -177,29 +177,6 @@ public class PublicFacing {
 	}
 
 	/**
-	 * Request 6
-	 * This is a function to get list of ALL Coop companies
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/all-coops
-	 *
-	 * @return List of UnderGradSchools
-	 */
-	@GET
-	@Path("/coops")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllCoopCompanies() {
-		List<String> listOfAllCoopCompanies;
-		try {
-			listOfAllCoopCompanies = workExperiencesPublicDao.getListOfAllCoopCompanies();
-
-		} catch (Exception e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-		}
-
-		return Response.status(Response.Status.OK).entity(listOfAllCoopCompanies).build();
-	}
-
-	/**
 	 * Request 7
 	 * This is the function to get all undergraduate degrees.
 	 * The body should be in the JSON format like below:
