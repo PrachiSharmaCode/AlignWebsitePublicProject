@@ -225,34 +225,6 @@ public class PublicFacing {
 	}
 
 	/**
-	 * Request 8
-	 * This is the function to get all graduate years.
-	 * The body should be in the JSON format like below:
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/all-grad-years
-	 *
-	 * @return List of all graduate years
-	 */
-	@GET
-	@Path("graduationyears")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllGradYears(){
-		List<Integer> years;
-		JSONArray result = new JSONArray();
-		try {
-			years = studentsPublicDao.getListOfAllGraduationYears();
-			for(Integer year : years){
-				result.put(Integer.toString(year));
-			}
-		} catch (Exception e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-		}
-
-		return Response.status(Response.Status.OK).entity(result.toString()).build();
-	}
-
-
-	/**
 	 * Request 10
 	 * This is the function to search for students
 	 * <p>
@@ -613,7 +585,7 @@ public class PublicFacing {
 				campus.add("SILICON_VALLEY");
 				input.setCampus(campus);
 			}
-			
+
 			if(input.getCampus().contains("SEATTLE")){
 				total+= singleValueAggregatedDataDao.getTotalStudentsInSeattle();
 			}
