@@ -200,21 +200,21 @@ public class serviceTest {
 
 
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void getAllCoops() {
-
-        List<String> coops = new ArrayList<>();
-        coops.add("FedEx");
-        coops.add("lululemon");
-        coops.add("Scality");
-        coops.add("Redfin");
-        coops.add("blackrock");
-        Response res = publicFacing.getAllCoopCompanies();
-        List response = (List) res.getEntity();
-        Assert.assertEquals(200, res.getStatus());
-        Assert.assertEquals(coops, response);
-    }
+//    @SuppressWarnings("unchecked")
+//    @Test
+//    public void getAllCoops() {
+//
+//        List<String> coops = new ArrayList<>();
+//        coops.add("FedEx");
+//        coops.add("lululemon");
+//        coops.add("Scality");
+//        coops.add("Redfin");
+//        coops.add("blackrock");
+//        Response res = publicFacing.getAllCoopCompanies();
+//        List response = (List) res.getEntity();
+//        Assert.assertEquals(200, res.getStatus());
+//        Assert.assertEquals(coops, response);
+//    }
 
     @SuppressWarnings("unchecked")
     @Test
@@ -231,23 +231,23 @@ public class serviceTest {
         Assert.assertEquals(undergrads, response);
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void getAllGradYear() {
-        List<Integer> gradYear = new ArrayList<>();
-        gradYear.add(2015);
-        gradYear.add(2016);
-        gradYear.add(2017);
-        gradYear.add(2018);
-        JSONArray result = new JSONArray();
-        for (Integer year : gradYear) {
-            result.put(Integer.toString(year));
-        }
-        Response res = publicFacing.getAllGradYears();
-        String response = (String) res.getEntity();
-        //  Assert.assertEquals(200, res.getStatus());
-        Assert.assertEquals(result.toString(), response);
-    }
+//    @SuppressWarnings("unchecked")
+//    @Test
+//    public void getAllGradYear() {
+//        List<Integer> gradYear = new ArrayList<>();
+//        gradYear.add(2015);
+//        gradYear.add(2016);
+//        gradYear.add(2017);
+//        gradYear.add(2018);
+//        JSONArray result = new JSONArray();
+//        for (Integer year : gradYear) {
+//            result.put(Integer.toString(year));
+//        }
+//        Response res = publicFacing.getAllGradYears();
+//        String response = (String) res.getEntity();
+//        //  Assert.assertEquals(200, res.getStatus());
+//        Assert.assertEquals(result.toString(), response);
+//    }
 
     @SuppressWarnings("unchecked")
     @Test
