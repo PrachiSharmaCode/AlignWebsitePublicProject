@@ -1,5 +1,6 @@
 package PublicServiceTest;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import junit.framework.Assert;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,10 +9,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mehaexample.asdDemo.alignWebsite.PublicFacing;
+import org.mehaexample.asdDemo.dao.alignprivate.StudentsDao;
+import org.mehaexample.asdDemo.dao.alignpublic.MultipleValueAggregatedDataDao;
 import org.mehaexample.asdDemo.dao.alignpublic.StudentsPublicDao;
 import org.mehaexample.asdDemo.dao.alignpublic.UndergraduatesPublicDao;
 import org.mehaexample.asdDemo.dao.alignpublic.WorkExperiencesPublicDao;
+import org.mehaexample.asdDemo.enums.*;
+import org.mehaexample.asdDemo.model.alignprivate.Students;
 import org.mehaexample.asdDemo.model.alignpublic.*;
+import org.mehaexample.asdDemo.restModels.StudentSerachCriteria;
+import org.mehaexample.asdDemo.restModels.StudentStatsObject;
 import org.mehaexample.asdDemo.restModels.TopUnderGradSchools;
 
 import javax.ws.rs.core.Response;
@@ -24,6 +31,15 @@ public class serviceTest {
     public static StudentsPublicDao studentsPublicDao;
     public static UndergraduatesPublicDao undergraduatesPublicDao;
     public static WorkExperiencesPublicDao workExperiencesPublicDao;
+    public static MultipleValueAggregatedDataDao multipleValueAggregatedDataDao;
+    public static StudentsDao studentsDao;
+    public static final String LIST_OF_STUDENTS_STATES = "ListOfStudentsStates";
+    MultipleValueAggregatedData multipleValueAggregatedData;
+    StudentSerachCriteria studentSerachCriteria;
+    StudentStatsObject studentStatsObject;
+    StudentStatsObject studentStatsObjectEmpty;
+    Students newStudent;
+    DataCount state;
 
 
     @BeforeClass
@@ -32,6 +48,8 @@ public class serviceTest {
         studentsPublicDao = new StudentsPublicDao();
         undergraduatesPublicDao = new UndergraduatesPublicDao();
         workExperiencesPublicDao = new WorkExperiencesPublicDao();
+        multipleValueAggregatedDataDao = new MultipleValueAggregatedDataDao();
+        studentsDao = new StudentsDao();
     }
 
     @Before
@@ -41,6 +59,8 @@ public class serviceTest {
         StudentsPublic studentsPublic2 = new StudentsPublic(22, 2016, true);
         StudentsPublic studentsPublic3 = new StudentsPublic(23, 2017, true);
         StudentsPublic studentsPublic4 = new StudentsPublic(24, 2018, true);
+
+
 
         studentsPublicDao.createStudent(studentsPublic1);
         studentsPublicDao.createStudent(studentsPublic2);
@@ -77,6 +97,34 @@ public class serviceTest {
         workExperiencesPublicDao.createWorkExperience(workExperiencesPublic4);
         workExperiencesPublicDao.createWorkExperience(workExperiencesPublic5);
 
+        state = new DataCount("WA",2);
+
+        List<String> coopList = new ArrayList<>();
+        List<String> degreeList = new ArrayList<>();
+        List<String> schoolList = new ArrayList<>();
+        List<String> yestList = new ArrayList<>();
+        List<String> campus = new ArrayList<>();
+        List<String> campusList = new ArrayList<>();
+
+
+        coopList.add("lululemon");
+        degreeList.add("cs");
+        schoolList.add("WSU");
+        yestList.add("2015");
+
+        campus.add("SEATTLE");
+        campus.add("BOSTON");
+        campus.add("CHARLOTTE");
+        campus.add("SILICON_VALLEY");
+
+        studentSerachCriteria = new StudentSerachCriteria(coopList, degreeList, schoolList, yestList, "0", "1");
+
+        studentStatsObject = new StudentStatsObject(campus);
+        studentStatsObjectEmpty = new StudentStatsObject(campusList);
+
+        multipleValueAggregatedData = new MultipleValueAggregatedData("WA",2);
+        multipleValueAggregatedData.setAnalyticTerm(LIST_OF_STUDENTS_STATES);
+
     }
 
     @After
@@ -103,17 +151,10 @@ public class serviceTest {
         JSONObject state = new JSONObject();
         Response res = publicFacing.getListOfState();
         Assert.assertEquals(state.toString(), res.getEntity());
+        System.out.println(res.getEntity());
         Assert.assertEquals(200, res.getStatus());
     }
 
-//    @SuppressWarnings("unchecked")
-//    @Test
-//    public void getRace() {
-//        JSONObject race = new JSONObject();
-//        Response res = publicFacing.getRace();
-//        Assert.assertEquals(race.toString(), res.getEntity());
-//        Assert.assertEquals(200, res.getStatus());
-//    }
 
     @SuppressWarnings("unchecked")
     @Test
@@ -198,24 +239,6 @@ public class serviceTest {
         Assert.assertEquals(200, res.getStatus());
     }
 
-
-
-//    @SuppressWarnings("unchecked")
-//    @Test
-//    public void getAllCoops() {
-//
-//        List<String> coops = new ArrayList<>();
-//        coops.add("FedEx");
-//        coops.add("lululemon");
-//        coops.add("Scality");
-//        coops.add("Redfin");
-//        coops.add("blackrock");
-//        Response res = publicFacing.getAllCoopCompanies();
-//        List response = (List) res.getEntity();
-//        Assert.assertEquals(200, res.getStatus());
-//        Assert.assertEquals(coops, response);
-//    }
-
     @SuppressWarnings("unchecked")
     @Test
     public void getAllUndergard() {
@@ -230,24 +253,6 @@ public class serviceTest {
         Assert.assertEquals(200, res.getStatus());
         Assert.assertEquals(undergrads, response);
     }
-
-//    @SuppressWarnings("unchecked")
-//    @Test
-//    public void getAllGradYear() {
-//        List<Integer> gradYear = new ArrayList<>();
-//        gradYear.add(2015);
-//        gradYear.add(2016);
-//        gradYear.add(2017);
-//        gradYear.add(2018);
-//        JSONArray result = new JSONArray();
-//        for (Integer year : gradYear) {
-//            result.put(Integer.toString(year));
-//        }
-//        Response res = publicFacing.getAllGradYears();
-//        String response = (String) res.getEntity();
-//        //  Assert.assertEquals(200, res.getStatus());
-//        Assert.assertEquals(result.toString(), response);
-//    }
 
     @SuppressWarnings("unchecked")
     @Test
@@ -280,6 +285,17 @@ public class serviceTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    public void searchStudent() {
+
+        Response res = publicFacing.searchStudent(studentSerachCriteria);
+        String response = (String) res.getEntity();
+        Assert.assertEquals(200, res.getStatus());
+        Assert.assertEquals("{\"quantity\":1,\"students\":[{\"coop\":\"FedEx\",\"undergradschool\":\"UW\",\"graduationyear\":\"2015\",\"undergraddegree\":\"agriculture\"}]}", response);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void getScholarshipTest() {
 
         Response res = publicFacing.getScholarshipData();
@@ -294,5 +310,40 @@ public class serviceTest {
         Response res = publicFacing.getGender();
         //String response = (String) res.getEntity();
         Assert.assertEquals("{\"female\":\"52.0\",\"male\":\"48.0\"}", res.getEntity());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getTotalGraduateTest() {
+        Response res = publicFacing.getTotalGraduates();
+        Assert.assertEquals(200, res.getStatus());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getTotalStudent1Test() {
+        Response res = publicFacing.getTotalStudents1();
+        Assert.assertEquals(200, res.getStatus());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getUndergraduatepercentTest() {
+        Response res = publicFacing.getListOfUndergradMajorPercent();
+        Assert.assertEquals(200, res.getStatus());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getTotalStudentTest() {
+        Response res = publicFacing.getTotalStudents(studentStatsObject);
+        Assert.assertEquals(200, res.getStatus());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getTotalStudentEmptyListTest() {
+        Response res = publicFacing.getTotalStudents(studentStatsObjectEmpty);
+        Assert.assertEquals(200, res.getStatus());
     }
 }
