@@ -50,7 +50,7 @@ public class serviceTest {
 		undergraduatesPublicDao = new UndergraduatesPublicDao();
 		workExperiencesPublicDao = new WorkExperiencesPublicDao();
 		multipleValueAggregatedDataDao = new MultipleValueAggregatedDataDao();
-		dataDao = new MultipleValueAggregatedDataDao(true);
+		dataDao = new MultipleValueAggregatedDataDao();
 		studentsDao = new StudentsDao();
 	}
 
@@ -176,16 +176,7 @@ public class serviceTest {
 		listOfStudentsStates.add(ma);
 		dataDao.saveOrUpdateList(listOfStudentsStates);
 
-		//        for(MultipleValueAggregatedData m : listOfStudentsStates){
-		//        	String s1 = m.getAnalyticKey();
-		//        	String s2 = m.getAnalyticTerm();
-		//            System.out.println("key " + s1);
-		//            System.out.println("term " + s2);
-		//        }
-		//        
-		//        boolean resulet1 = dataDao.saveOrUpdateList(listOfStudentsStates);
-		//        System.err.println("result1 " + resulet1);
-
+		// call the service method
 		Response resp = publicFacing.getListOfState();
 
 		Assert.assertEquals(200, resp.getStatus());   
@@ -193,7 +184,6 @@ public class serviceTest {
 		// clear the database
 		dataDao.deleteListOfBachelorDegrees();
 		Assert.assertTrue(dataDao.getTopFiveListOfBachelorDegrees().isEmpty());
-
 	}
 
 	@SuppressWarnings("unchecked")
