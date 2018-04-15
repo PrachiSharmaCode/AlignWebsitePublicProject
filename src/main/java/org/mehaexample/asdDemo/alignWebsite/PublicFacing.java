@@ -176,6 +176,59 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(allUnderGradSchools).build();
 	}
 
+		/**
+	 * This is the function to get all graduate years.
+	 * 
+	 * @return List of all graduate years
+	 */
+	@GET
+	@Path("graduationyears")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllGradYears(){
+		List<Integer> years;
+		JSONArray result = new JSONArray();
+		try {
+			years = studentsPublicDao.getListOfAllGraduationYears();
+
+			if (years == null) {
+				return Response.status(Response.Status.NOT_FOUND).entity("No graduation years are found").build();
+			} 
+
+			for(Integer year : years){
+				result.put(Integer.toString(year));
+			}
+		} catch (Exception e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+		}
+
+		return Response.status(Response.Status.OK).entity(result.toString()).build();
+	}
+
+	/**
+	 * Request 6
+	 * This is a function to get list of ALL Coop companies
+	 * 	 
+	 * @return List of all Coops
+	 */
+	@GET
+	@Path("/coops")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllCoopCompanies() {
+		List<String> listOfAllCoopCompanies;
+		try {
+			listOfAllCoopCompanies = workExperiencesPublicDao.getListOfAllCoopCompanies();
+
+			if (listOfAllCoopCompanies == null) {
+				return Response.status(Response.Status.NOT_FOUND).entity("No COOPS are found").build();
+			} 
+
+		} catch (Exception e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+		}
+
+		return Response.status(Response.Status.OK).entity(listOfAllCoopCompanies).build();
+	} 
+	
 	/**
 	 * Request 7
 	 * This is the function to get all undergraduate degrees.
