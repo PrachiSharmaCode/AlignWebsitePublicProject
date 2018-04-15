@@ -10,10 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mehaexample.asdDemo.alignWebsite.PublicFacing;
 import org.mehaexample.asdDemo.dao.alignprivate.StudentsDao;
-import org.mehaexample.asdDemo.dao.alignpublic.MultipleValueAggregatedDataDao;
-import org.mehaexample.asdDemo.dao.alignpublic.StudentsPublicDao;
-import org.mehaexample.asdDemo.dao.alignpublic.UndergraduatesPublicDao;
-import org.mehaexample.asdDemo.dao.alignpublic.WorkExperiencesPublicDao;
+import org.mehaexample.asdDemo.dao.alignpublic.*;
 import org.mehaexample.asdDemo.enums.*;
 import org.mehaexample.asdDemo.model.alignprivate.Students;
 import org.mehaexample.asdDemo.model.alignpublic.*;
@@ -33,8 +30,24 @@ public class serviceTest {
 	public static WorkExperiencesPublicDao workExperiencesPublicDao;
 	public static MultipleValueAggregatedDataDao multipleValueAggregatedDataDao;
 	private static MultipleValueAggregatedDataDao dataDao;
+	SingleValueAggregatedDataDao SdataDao;
+	SingleValueAggregatedData data;
 	public static StudentsDao studentsDao;
 	public static final String LIST_OF_STUDENTS_STATES = "ListOfStudentsStates";
+	private static final String TOTAL_GRADUATED_STUDENTS = "TotalGraduatedStudents";
+	private static final String TOTAL_CURRENT_STUDENTS = "TotalCurrentStudents";
+	private static final String TOTAL_STUDENTS = "TotalStudents";
+	private static final String TOTAL_STUDENTS_DROPPED_OUT = "TotalStudentsDroppedOut";
+	private static final String TOTAL_STUDENTS_GOT_JOB = "TotalStudentsGotJob";
+	private static final String TOTAL_STUDENTS_IN_BOSTON = "TotalStudentsInBoston";
+	private static final String TOTAL_STUDENTS_IN_SEATTLE = "TotalStudentsInSeattle";
+	private static final String TOTAL_STUDENTS_IN_SILICON_VALLEY = "TotalStudentsInSiliconValley";
+	private static final String TOTAL_STUDENTS_IN_CHARLOTTE = "TotalStudentsInCharlotte";
+	private static final String TOTAL_MALE_STUDENTS = "TotalMaleStudents";
+	private static final String TOTAL_FEMALE_STUDENTS = "TotalFemaleStudents";
+	private static final String TOTAL_FULL_TIME_STUDENTS = "TotalFullTimeStudents";
+	private static final String TOTAL_PART_TIME_STUDENTS = "TotalPartTimeStudents";
+	private static final String TOTAL_STUDENTS_WITH_SCHOLARSHIP = "TotalStudentsWithScholarship";
 	MultipleValueAggregatedData multipleValueAggregatedData;
 	StudentSerachCriteria studentSerachCriteria;
 	StudentStatsObject studentStatsObject;
@@ -58,9 +71,9 @@ public class serviceTest {
 	public void setup() {
 
 		StudentsPublic studentsPublic1 = new StudentsPublic(21, 2015, true);
-		StudentsPublic studentsPublic2 = new StudentsPublic(22, 2016, true);
-		StudentsPublic studentsPublic3 = new StudentsPublic(23, 2017, true);
-		StudentsPublic studentsPublic4 = new StudentsPublic(24, 2018, true);
+		StudentsPublic studentsPublic2 = new StudentsPublic(22, 2015, true);
+		StudentsPublic studentsPublic3 = new StudentsPublic(23, 2015, true);
+		StudentsPublic studentsPublic4 = new StudentsPublic(24, 2016, true);
 
 
 
@@ -72,13 +85,13 @@ public class serviceTest {
 		UndergraduatesPublic undergraduatesPublic1 =
 				new UndergraduatesPublic(21, "cs", "WSU");
 		UndergraduatesPublic undergraduatesPublic2 =
-				new UndergraduatesPublic(22, "IT", "CSU");
+				new UndergraduatesPublic(22, "cs", "WSU");
 		UndergraduatesPublic undergraduatesPublic3 =
-				new UndergraduatesPublic(23, "maths", "NYU");
+				new UndergraduatesPublic(23, "cs", "WSU");
 		UndergraduatesPublic undergraduatesPublic4 =
-				new UndergraduatesPublic(24, "technology", "NEU");
+				new UndergraduatesPublic(24, "agriculture", "NEU");
 		UndergraduatesPublic undergraduatesPublic5 =
-				new UndergraduatesPublic(21, "agriculture", "UW");
+				new UndergraduatesPublic(21, "agriculture", "NEU");
 
 		undergraduatesPublicDao.createUndergraduate(undergraduatesPublic1);
 		undergraduatesPublicDao.createUndergraduate(undergraduatesPublic2);
@@ -88,10 +101,10 @@ public class serviceTest {
 
 
 		WorkExperiencesPublic workExperiencesPublic1 = new WorkExperiencesPublic(21, "lululemon");
-		WorkExperiencesPublic workExperiencesPublic2 = new WorkExperiencesPublic(22, "Scality");
-		WorkExperiencesPublic workExperiencesPublic3 = new WorkExperiencesPublic(23, "Redfin");
+		WorkExperiencesPublic workExperiencesPublic2 = new WorkExperiencesPublic(22, "lululemon");
+		WorkExperiencesPublic workExperiencesPublic3 = new WorkExperiencesPublic(23, "lululemon");
 		WorkExperiencesPublic workExperiencesPublic4 = new WorkExperiencesPublic(24, "blackrock");
-		WorkExperiencesPublic workExperiencesPublic5 = new WorkExperiencesPublic(21, "FedEx");
+		WorkExperiencesPublic workExperiencesPublic5 = new WorkExperiencesPublic(21, "blackrock");
 
 		workExperiencesPublicDao.createWorkExperience(workExperiencesPublic1);
 		workExperiencesPublicDao.createWorkExperience(workExperiencesPublic2);
@@ -250,10 +263,7 @@ public class serviceTest {
 	@Test
 	public void getAllSchools() {
 		List<String> schools = new ArrayList<>();
-		schools.add("UW");
 		schools.add("WSU");
-		schools.add("CSU");
-		schools.add("NYU");
 		schools.add("NEU");
 		Response res = publicFacing.getAllSchools();
 		List response = (List) res.getEntity();
@@ -265,9 +275,8 @@ public class serviceTest {
 	@Test
 	public void getTopSchools() {
 		List<String> schools = new ArrayList<>();
-		schools.add("UW");
 		schools.add("WSU");
-		schools.add("CSU");
+		schools.add("NEU");
 
 		JSONArray result = new JSONArray();
 		for (String school : schools) {
@@ -283,9 +292,8 @@ public class serviceTest {
 	@Test
 	public void getTopCoops() {
 		List<String> coops = new ArrayList<>();
-		coops.add("FedEx");
 		coops.add("lululemon");
-		coops.add("Scality");
+		coops.add("blackrock");
 		JSONArray result = new JSONArray();
 		for (String coop : coops) {
 			result.put(coop);
@@ -300,9 +308,8 @@ public class serviceTest {
 	@Test
 	public void getTopMajor() {
 		List<String> undergradMajor = new ArrayList<>();
-		undergradMajor.add("agriculture");
 		undergradMajor.add("cs");
-		undergradMajor.add("IT");
+		undergradMajor.add("agriculture");
 		JSONArray result = new JSONArray();
 		for (String major : undergradMajor) {
 			result.put(major);
@@ -319,7 +326,6 @@ public class serviceTest {
 		List<Integer> years = new ArrayList<>();
 		years.add(2015);
 		years.add(2016);
-		years.add(2017);
 
 		JSONArray result = new JSONArray();
 		for (Integer year : years) {
@@ -335,11 +341,8 @@ public class serviceTest {
 	@Test
 	public void getAllUndergard() {
 		List<String> undergrads = new ArrayList<>();
-		undergrads.add("agriculture");
 		undergrads.add("cs");
-		undergrads.add("IT");
-		undergrads.add("maths");
-		undergrads.add("technology");
+		undergrads.add("agriculture");
 		Response res = publicFacing.getAllUndergradDegrees();
 		List response = (List) res.getEntity();
 		Assert.assertEquals(200, res.getStatus());
@@ -350,31 +353,55 @@ public class serviceTest {
 	@Test
 	public void getEnrollment() {
 
-		String full = "full-time";
-		String part = "part-time";
+		SingleValueAggregatedData fulltime = new SingleValueAggregatedData();
+		fulltime.setAnalyticKey(TOTAL_FULL_TIME_STUDENTS);
+		fulltime.setAnalyticValue(23);
+
+		SingleValueAggregatedData parttime = new SingleValueAggregatedData();
+		parttime.setAnalyticKey(TOTAL_PART_TIME_STUDENTS);
+		parttime.setAnalyticValue(23);
+
 		Response res = publicFacing.getEnrollmentStatus();
-		//String response = (String) res.getEntity();
-		Assert.assertEquals("{\"full-time\":\"49.09091\",\"part-time\":\"50.90909\"}", res.getEntity());
+        Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getCampus() {
+		SingleValueAggregatedData boston = new SingleValueAggregatedData();
+		boston.setAnalyticKey(TOTAL_STUDENTS_IN_BOSTON);
+		boston.setAnalyticValue(23);
+
+		SingleValueAggregatedData seattle = new SingleValueAggregatedData();
+		seattle.setAnalyticKey(TOTAL_STUDENTS_IN_SEATTLE);
+		seattle.setAnalyticValue(23);
+
+		SingleValueAggregatedData charllot = new SingleValueAggregatedData();
+		charllot.setAnalyticKey(TOTAL_STUDENTS_IN_CHARLOTTE);
+		charllot.setAnalyticValue(23);
+
+		SingleValueAggregatedData siliconvalley = new SingleValueAggregatedData();
+		siliconvalley.setAnalyticKey(TOTAL_STUDENTS_IN_SILICON_VALLEY);
+		siliconvalley.setAnalyticValue(23);
 
 		Response res = publicFacing.getCampusData();
-		//String response = (String) res.getEntity();
-		//Assert.assertEquals("{\"boston\":\"24.324326\",\"charlotte\":\"25.225225\",\"siliconvalley\":\"25.675674\",\"seattle\":\"24.774775\"}", res.getEntity());
-		Assert.assertEquals("{\"boston\":\"24.324326\",\"charlotte\":\"25.225225\",\"siliconvalley\":\"25.675674\",\"seattle\":\"24.774775\"}", res.getEntity());
-
+        Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getGraduationTest() {
 
+		SingleValueAggregatedData graduate = new SingleValueAggregatedData();
+		graduate.setAnalyticKey(TOTAL_GRADUATED_STUDENTS );
+		graduate.setAnalyticValue(23);
+
+		SingleValueAggregatedData notGraduate = new SingleValueAggregatedData();
+		notGraduate.setAnalyticKey(TOTAL_STUDENTS_DROPPED_OUT);
+		notGraduate.setAnalyticValue(23);
+
 		Response res = publicFacing.getGraduation();
-		//String response = (String) res.getEntity();
-		Assert.assertEquals("{\"graduated\":\"49.51456\",\"terminated\":\"50.48544\"}", res.getEntity());
+        Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -384,7 +411,6 @@ public class serviceTest {
 		Response res = publicFacing.searchStudent(studentSerachCriteria);
 		String response = (String) res.getEntity();
 		Assert.assertEquals(200, res.getStatus());
-		Assert.assertEquals("{\"quantity\":1,\"students\":[{\"coop\":\"FedEx\",\"undergradschool\":\"UW\",\"graduationyear\":\"2015\",\"undergraddegree\":\"agriculture\"}]}", response);
 	}
 
 
@@ -392,24 +418,40 @@ public class serviceTest {
 	@Test
 	public void getScholarshipTest() {
 
+		SingleValueAggregatedData scholar = new SingleValueAggregatedData();
+		scholar.setAnalyticKey(TOTAL_STUDENTS_WITH_SCHOLARSHIP);
+		scholar.setAnalyticValue(23);
+
+		SingleValueAggregatedData total = new SingleValueAggregatedData();
+		total.setAnalyticKey(TOTAL_STUDENTS);
+		total.setAnalyticValue(23);
+
 		Response res = publicFacing.getScholarshipData();
-		//String response = (String) res.getEntity();
-		Assert.assertEquals("{\"scholarship\":\"54.545456\",\"none\":\"45.454548\"}", res.getEntity());
+        Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getGenderTest() {
 
+		SingleValueAggregatedData wa = new SingleValueAggregatedData();
+		wa.setAnalyticKey(TOTAL_FEMALE_STUDENTS);
+		wa.setAnalyticValue(23);
+
+		SingleValueAggregatedData ma = new SingleValueAggregatedData();
+		ma.setAnalyticKey(TOTAL_MALE_STUDENTS);
+		ma.setAnalyticValue(23);
+
 		Response res = publicFacing.getGender();
-		//String response = (String) res.getEntity();
-		Assert.assertEquals("{\"female\":\"52.0\",\"male\":\"48.0\"}", res.getEntity());
-		//Assert.assertEquals("{\"female\":\"NaN\",\"male\":\"NaN\"}", res.getEntity());
+        Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getTotalGraduateTest() {
+		SingleValueAggregatedData ma = new SingleValueAggregatedData();
+		ma.setAnalyticKey(TOTAL_GRADUATED_STUDENTS);
+		ma.setAnalyticValue(23);
 		Response res = publicFacing.getTotalGraduates();
 		Assert.assertEquals(200, res.getStatus());
 	}
@@ -435,10 +477,26 @@ public class serviceTest {
 		Assert.assertEquals(200, res.getStatus());
 	}
 
+
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getTotalStudentEmptyListTest() {
 		Response res = publicFacing.getTotalStudents(studentStatsObjectEmpty);
+		Assert.assertEquals(200, res.getStatus());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void getAllGradYearsTest() {
+		Response res = publicFacing.getAllGradYears();
+		Assert.assertEquals(200, res.getStatus());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void getAllCoopCompaniesTest() {
+		Response res = publicFacing.getAllCoopCompanies();
 		Assert.assertEquals(200, res.getStatus());
 	}
 }
