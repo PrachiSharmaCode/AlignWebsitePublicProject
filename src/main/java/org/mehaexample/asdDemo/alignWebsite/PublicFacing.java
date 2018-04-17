@@ -351,6 +351,11 @@ public class PublicFacing {
 			int numberOfFemale = singleValueAggregatedDataDao.getTotalFemaleStudents();
 
 			int totalCount = numberOfMale + numberOfFemale;
+			
+			if(totalCount == 0){
+				totalCount = 1;
+			}
+			
 			float malepercent = (float) (((float) numberOfMale/(float) totalCount) * 100.00);
 			float femalepercent = (float) (((float) numberOfFemale/(float) totalCount) * 100.00);
 
@@ -379,6 +384,11 @@ public class PublicFacing {
 	//            for(int i=0; i<race.size();i++){
 	//    			totalCount += race.get(i).getDataValue();
 	//            }
+	//			
+	//			if(totalCount == 0){
+	//				totalCount = 1;
+	//			}
+	//
 	//    		for(int i=0; i<race.size();i++){
 	//    			float percent = (float) (( (float) race.get(i).getDataValue()/(float) totalCount ) * 100.00);
 	//    			resultObj.put(race.get(i).getDataKey().toLowerCase(), Float.toString(percent));
@@ -399,6 +409,11 @@ public class PublicFacing {
 			int numberOfFulltime = singleValueAggregatedDataDao.getTotalFullTimeStudents();
 			int numberOfPartTime = singleValueAggregatedDataDao.getTotalPartTimeStudents();
 			int totalCount = numberOfFulltime + numberOfPartTime;
+			
+			if(totalCount == 0){
+				totalCount = 1;
+			}
+			
 			float fulltimepercent = (float) (((float) numberOfFulltime/(float) totalCount) * 100.00);
 			float parttimepercent = (float) (((float) numberOfPartTime/(float) totalCount) * 100.00);
 
@@ -423,6 +438,10 @@ public class PublicFacing {
 			int numberOfTerminated = singleValueAggregatedDataDao.getTotalDroppedOutStudents();
 			int totalCount = numberOfGraduated + numberOfTerminated;
 
+			if(totalCount == 0){
+				totalCount = 1;
+			}
+			
 			if(numberOfGraduated > 0 && numberOfTerminated > 0){
 				graduatedpercent = (float) (((float) numberOfGraduated/(float) totalCount) * 100.00);
 				terminatedpercent = (float) (((float) numberOfTerminated/(float) totalCount) * 100.00);
@@ -452,6 +471,10 @@ public class PublicFacing {
 			for(int i=0; i<state.size();i++){
 				totalCount += state.get(i).getDataValue();
 			}
+			
+			if(totalCount == 0){
+				totalCount = 1;
+			}
 
 			for(int i=0; i<state.size();i++){
 				float percent = (float) (( (float) state.get(i).getDataValue()/(float) totalCount ) * 100.00);
@@ -476,6 +499,11 @@ public class PublicFacing {
 			int studentInCharlotte = singleValueAggregatedDataDao.getTotalStudentsInCharlotte();
 			int studentInSiliconValley = singleValueAggregatedDataDao.getTotalStudentsInSiliconValley();
 			int totalCount = studentInBoston + studentInSeattle + studentInCharlotte + studentInSiliconValley;
+			
+			if(totalCount == 0){
+				totalCount = 1;
+			}
+			
 			float bostonpercent = (float) (((float) studentInBoston/(float) totalCount) * 100.00);
 			float seattlepercent = (float) (((float) studentInSeattle/(float) totalCount) * 100.00);
 			float charlottepercent = (float) (((float) studentInCharlotte/(float) totalCount) * 100.00);
@@ -502,6 +530,11 @@ public class PublicFacing {
 		int studentWithScholarship = singleValueAggregatedDataDao.getTotalStudentsWithScholarship();
 		int studentWithoutScholarship = singleValueAggregatedDataDao.getTotalStudents();
 		int totalCount = studentWithScholarship + studentWithoutScholarship ;
+		
+		if(totalCount == 0){
+			totalCount = 1;
+		}
+			
 		float scholarshippercent = (float) (((float) studentWithScholarship/(float) totalCount) * 100.00);
 		float nonepercent = (float) (((float) studentWithoutScholarship/(float) totalCount) * 100.00);
 		jsonObj.put("scholarship", Float.toString(scholarshippercent));
@@ -526,6 +559,10 @@ public class PublicFacing {
 
 			for(int i=0; i<major.size();i++){
 				totalCount += major.get(i).getDataValue();
+			}
+			
+			if(totalCount == 0){
+				totalCount = 1;
 			}
 
 			for(int i=0; i<major.size();i++){
@@ -552,6 +589,10 @@ public class PublicFacing {
 			education = multipleValueAggregatedDataDao.getListOfHighestDegreesCount();
 			for(int i=0; i<education.size();i++){
 				totalCount += education.get(i).getDataValue();
+			}
+			
+			if(totalCount == 0){
+				totalCount = 1;
 			}
 
 			for(int i=0; i<education.size();i++){
