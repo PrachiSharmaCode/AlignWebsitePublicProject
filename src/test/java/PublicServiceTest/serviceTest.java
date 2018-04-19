@@ -9,10 +9,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mehaexample.asdDemo.alignWebsite.PublicFacing;
-import org.mehaexample.asdDemo.dao.alignprivate.StudentsDao;
 import org.mehaexample.asdDemo.dao.alignpublic.*;
 import org.mehaexample.asdDemo.enums.*;
-import org.mehaexample.asdDemo.model.alignprivate.Students;
 import org.mehaexample.asdDemo.model.alignpublic.*;
 import org.mehaexample.asdDemo.restModels.StudentSerachCriteria;
 import org.mehaexample.asdDemo.restModels.StudentStatsObject;
@@ -32,7 +30,6 @@ public class serviceTest {
 	private static MultipleValueAggregatedDataDao dataDao;
 	SingleValueAggregatedDataDao SdataDao;
 	SingleValueAggregatedData data;
-	public static StudentsDao studentsDao;
 	public static final String LIST_OF_STUDENTS_STATES = "ListOfStudentsStates";
 	private static final String TOTAL_GRADUATED_STUDENTS = "TotalGraduatedStudents";
 	private static final String TOTAL_CURRENT_STUDENTS = "TotalCurrentStudents";
@@ -52,7 +49,6 @@ public class serviceTest {
 	StudentSerachCriteria studentSerachCriteria;
 	StudentStatsObject studentStatsObject;
 	StudentStatsObject studentStatsObjectEmpty;
-	Students newStudent;
 	DataCount state;
 
 
@@ -64,7 +60,6 @@ public class serviceTest {
 		workExperiencesPublicDao = new WorkExperiencesPublicDao();
 		multipleValueAggregatedDataDao = new MultipleValueAggregatedDataDao();
 		dataDao = new MultipleValueAggregatedDataDao();
-		studentsDao = new StudentsDao();
 	}
 
 	@Before
