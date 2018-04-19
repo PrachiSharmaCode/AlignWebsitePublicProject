@@ -19,7 +19,6 @@
         <property name="hibernate.connection.autoReconnect">true</property>
         <property name="hibernate.connection.useSSL">true</property>
         <property name="hibernate.connection.verifyServerCertificate">true</property>
-        <property name="hibernate.connection.trustServerCertificate">true</property>
         <property name="hibernate.connection.requireSSL">true</property>
 
         <property name="hibernate.connection.username">
@@ -37,10 +36,10 @@
         <property name="hibernate.c3p0.idle_test_period">3000</property>
 
         <!-- List of XML mapping files -->
-        <mapping resource="WorkExperiencesPublic.hbm.xml" />
-        <mapping resource="UndergraduatesPublic.hbm.xml" />
-        <mapping resource="StudentsPublic.hbm.xml" />
-        <mapping resource="SingleValueAggregatedData.hbm.xml" />
-        <mapping resource="MultipleValueAggregatedData.hbm.xml" />
+        <mapping resource="WorkExperiencesPublic.hbm.xml"/>
+        <mapping resource="UndergraduatesPublic.hbm.xml"/>
+        <mapping resource="StudentsPublic.hbm.xml"/>
+        <mapping resource="SingleValueAggregatedData.hbm.xml"/>
+        <mapping resource="MultipleValueAggregatedData.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

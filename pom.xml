@@ -207,9 +207,7 @@
                     localhost
                 </database.ip>
                 <test.port>3307</test.port>
-                <admin.port>3307</admin.port>
                 <public.port>3307</public.port>
-                <private.port>3307</private.port>
                 <test.username>
                     root
                 </test.username>
@@ -239,9 +237,7 @@
                     asd3.ccs.neu.edu
                 </database.ip>
                 <test.port>3306</test.port>
-                <admin.port>3307</admin.port>
                 <public.port>3309</public.port>
-                <private.port>3308</private.port>
                 <test.username>
                     root
                 </test.username>
