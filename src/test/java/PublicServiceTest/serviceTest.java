@@ -47,6 +47,8 @@ public class serviceTest {
 	private static final String TOTAL_STUDENTS_WITH_SCHOLARSHIP = "TotalStudentsWithScholarship";
 	MultipleValueAggregatedData multipleValueAggregatedData;
 	StudentSerachCriteria studentSerachCriteria;
+	StudentSerachCriteria studentSerachCriteriaEmpty;
+	StudentSerachCriteria studentSerachCriteriaNull;
 	StudentStatsObject studentStatsObject;
 	StudentStatsObject studentStatsObjectEmpty;
 	DataCount state;
@@ -129,6 +131,19 @@ public class serviceTest {
 
 		studentSerachCriteria = new StudentSerachCriteria(coopList, degreeList, schoolList, yestList, "0", "1");
 
+		List<String> coopListEmpty = new ArrayList<>();
+		List<String> degreeListEmpty = new ArrayList<>();
+		List<String> schoolListEmpty = new ArrayList<>();
+		List<String> yestListEmpty = new ArrayList<>();
+		List<String> campusEmpty = new ArrayList<>();
+		List<String> campusListEmpty = new ArrayList<>();
+
+		studentSerachCriteriaEmpty = new StudentSerachCriteria(coopListEmpty, degreeListEmpty,
+				schoolListEmpty, yestListEmpty, "0", "1");
+
+		studentSerachCriteriaNull = new StudentSerachCriteria(null, null,
+				null, null, "0", "1");
+
 		studentStatsObject = new StudentStatsObject(campus);
 		studentStatsObjectEmpty = new StudentStatsObject(campusList);
 
@@ -145,27 +160,6 @@ public class serviceTest {
 		studentsPublicDao.deleteStudentByPublicId(24);
 	}
 
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void getHigestEducation() {
-//		JSONObject education = new JSONObject();
-//		Response res = publicFacing.getListOfHighestEducation();
-//		//Assert.assertEquals(education.toString(), res.getEntity());
-//		Assert.assertEquals("{\"bachelors\":\"25.609756\",\"master of it\":\"25.609756\",\"master of science\":\"24.390244\",\"masters\":\"24.390244\"}", res.getEntity());
-//		Assert.assertEquals(200, res.getStatus());
-//	}
-
-
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void getState() {
-//		JSONObject state = new JSONObject();
-//		Response res = publicFacing.getListOfState();
-//		//Assert.assertEquals(state.toString(), res.getEntity());
-//		Assert.assertEquals("{\"ma\":\"51.219513\",\"wa\":\"48.780487\"}", res.getEntity());
-//		System.out.println(res.getEntity());
-//		Assert.assertEquals(200, res.getStatus());
-//	}
 
 	@Test
 	public void getListOfStatesTest(){
@@ -189,7 +183,7 @@ public class serviceTest {
 		// call the service method
 		Response resp = publicFacing.getListOfState();
 
-		Assert.assertEquals(200, resp.getStatus());   
+		Assert.assertEquals(200, resp.getStatus());
 
 		// clear the database
 		dataDao.deleteListOfBachelorDegrees();
@@ -357,7 +351,7 @@ public class serviceTest {
 		parttime.setAnalyticValue(23);
 
 		Response res = publicFacing.getEnrollmentStatus();
-        Assert.assertEquals(200, res.getStatus());
+		Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -380,7 +374,7 @@ public class serviceTest {
 		siliconvalley.setAnalyticValue(23);
 
 		Response res = publicFacing.getCampusData();
-        Assert.assertEquals(200, res.getStatus());
+		Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -396,7 +390,7 @@ public class serviceTest {
 		notGraduate.setAnalyticValue(23);
 
 		Response res = publicFacing.getGraduation();
-        Assert.assertEquals(200, res.getStatus());
+		Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -406,6 +400,32 @@ public class serviceTest {
 		Response res = publicFacing.searchStudent(studentSerachCriteria);
 		String response = (String) res.getEntity();
 		Assert.assertEquals(200, res.getStatus());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void searchStudentEmpty() {
+
+		Response res = publicFacing.searchStudent(studentSerachCriteriaEmpty);
+		String response = (String) res.getEntity();
+		Assert.assertEquals(200, res.getStatus());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void searchStudentNullTest() {
+
+		Response res = publicFacing.searchStudent(studentSerachCriteriaNull);
+		String response = (String) res.getEntity();
+		Assert.assertEquals(200, res.getStatus());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void searchStudentNull() {
+
+		Response res = publicFacing.searchStudent(null);
+		Assert.assertEquals(400, res.getStatus());
 	}
 
 
@@ -422,7 +442,7 @@ public class serviceTest {
 		total.setAnalyticValue(23);
 
 		Response res = publicFacing.getScholarshipData();
-        Assert.assertEquals(200, res.getStatus());
+		Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -438,7 +458,7 @@ public class serviceTest {
 		ma.setAnalyticValue(23);
 
 		Response res = publicFacing.getGender();
-        Assert.assertEquals(200, res.getStatus());
+		Assert.assertEquals(200, res.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
