@@ -26,9 +26,6 @@ public class WorkExperiencesPublicDaoTest {
     workExperiencesPublicDao = new WorkExperiencesPublicDao(true);
     studentsPublicDao = new StudentsPublicDao(true);
 
-//    workExperiencesPublicDao = new WorkExperiencesPublicDao();
-//    studentsPublicDao = new StudentsPublicDao();
-
     StudentsPublic studentsPublic = new StudentsPublic(5, 2016, true);
     studentsPublicDao.createStudent(studentsPublic);
     StudentsPublic studentsPublic2 = new StudentsPublic(6, 2016, true);
@@ -50,11 +47,17 @@ public class WorkExperiencesPublicDaoTest {
     studentsPublicDao.deleteStudentByPublicId(5);
   }
 
+  /**
+   * Test for trying deleting a non existent work experience in public database.
+   */
   @Test(expected = HibernateException.class)
   public void deleteNonExistentWorkExperienceTest() {
     assertTrue(workExperiencesPublicDao.deleteWorkExperienceById(-200));
   }
 
+  /**
+   * Test for finding a work exp by the work experience Id in public database.
+   */
   @Test
   public void findWorkExperienceByIdTest() {
     assertTrue(workExperiencesPublicDao.findWorkExperienceById(
@@ -62,6 +65,9 @@ public class WorkExperiencesPublicDaoTest {
     assertTrue(workExperiencesPublicDao.findWorkExperienceById(-200) == null);
   }
 
+  /**
+   * Test for getting the top coop companies from the public database.
+   */
   @Test
   public void getTopCoopsTest() {
     List<TopCoops> listOfTopCoops = workExperiencesPublicDao.getTopCoops(3);
@@ -72,6 +78,9 @@ public class WorkExperiencesPublicDaoTest {
     assertTrue(listOfTopCoops.get(1).getTotalStudents() == 1);
   }
 
+  /**
+   * Test for getting the list of all coop companies from the public database.
+   */
   @Test
   public void getListOfAllCoopCompanies() {
     List<String> listOfAllCoopCompanies = workExperiencesPublicDao.getListOfAllCoopCompanies();

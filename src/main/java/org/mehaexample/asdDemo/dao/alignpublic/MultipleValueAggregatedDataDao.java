@@ -17,16 +17,31 @@ public class MultipleValueAggregatedDataDao {
 
   private SessionFactory factory;
 
+  /**
+   * Get the session factory connection to the database.
+   */
   public MultipleValueAggregatedDataDao() {
     this.factory = PublicSessionFactory.getFactory();
   }
 
+  /**
+   * Get the session factory connection to the database.
+   * This is only for connecting to the test database in local.
+   *
+   * @param test boolean variable.
+   */
   public MultipleValueAggregatedDataDao(boolean test) {
     if (test) {
       this.factory = PublicTestSessionFactory.getFactory();
     }
   }
 
+  /**
+   * Update the specific list of the aggregated data in the public database.
+   *
+   * @param list list of the multiple value aggregated data.
+   * @return true if updated.
+   */
   public synchronized boolean saveOrUpdateList(List<MultipleValueAggregatedData> list) {
     Transaction tx = null;
     for (MultipleValueAggregatedData employer : list) {
@@ -45,14 +60,32 @@ public class MultipleValueAggregatedDataDao {
     return true;
   }
 
+  /**
+   * Get the list of top five employers for the chatbot functionality.
+   * This function is for machine learning api.
+   *
+   * @return list of top five employers.
+   */
   public List<String> getTopFiveListOfEmployers() {
     return findTopFiveKeyByTerm(LIST_OF_EMPLOYERS);
   }
 
+  /**
+   * Get the list of top five bachelor degrees for the chatbot functionality.
+   * This function is for machine learning api.
+   *
+   * @return list of top five Bachelor Degrees.
+   */
   public List<String> getTopFiveListOfBachelorDegrees() {
     return findTopFiveKeyByTerm(LIST_OF_BACHELOR_DEGREES);
   }
 
+  /**
+   * Helper class for getting the top five values from the public database.
+   *
+   * @param analyticTerm term for searching specific values.
+   * @return list of top five values in strings.
+   */
   private List<String> findTopFiveKeyByTerm(String analyticTerm) {
     Session session = factory.openSession();
     try {
@@ -69,22 +102,44 @@ public class MultipleValueAggregatedDataDao {
     }
   }
 
-//  public List<DataCount> getListOfRacesCount() {
-//    return findDataCountByTerm(LIST_OF_RACES);
-//  }
-
+  /**
+   * Get the list of states that current students originally from
+   * and their counts.
+   *
+   * @return list of states of current students originally from and their counts.
+   */
   public List<DataCount> getListOfStudentsStatesCount() {
     return findDataCountByTerm(LIST_OF_STUDENTS_STATES);
   }
 
+  /**
+   * Get the list of undergrad majors that current students had
+   * and their counts.
+   *
+   * @return list of undergrad majors of current students had
+   * and their counts.
+   */
   public List<DataCount> getListOfUndergraduateMajorsCount() {
     return findDataCountByTerm(LIST_OF_BACHELOR_DEGREES);
   }
 
+  /**
+   * Get the list of highest degrees, such as Bachelor's or Master's,
+   * that current students had and their counts.
+   *
+   * @return list of highest degrees of current students had
+   * and their counts.
+   */
   public List<DataCount> getListOfHighestDegreesCount() {
     return findDataCountByTerm(LIST_OF_DEGREES);
   }
 
+  /**
+   * Helper class to get the list of values and their data counts.
+   *
+   * @param analyticTerm specific term to get a specific list of data.
+   * @return list of the data values and their counts.
+   */
   private List<DataCount> findDataCountByTerm(String analyticTerm) {
     Session session = factory.openSession();
     try {
@@ -101,26 +156,51 @@ public class MultipleValueAggregatedDataDao {
     }
   }
 
+  /**
+   * Delete the list of Employers from the public Database.
+   *
+   * @return true if deleted.
+   */
   public boolean deleteListOfEmployers() {
     return deleteDataByTerm(LIST_OF_EMPLOYERS);
   }
 
+  /**
+   * Delete the list of Bachelor Degrees from the public Database.
+   *
+   * @return true if deleted.
+   */
   public boolean deleteListOfBachelorDegrees() {
     return deleteDataByTerm(LIST_OF_BACHELOR_DEGREES);
   }
 
-//  public boolean deleteListOfRacesCounts() {
-//    return deleteDataByTerm(LIST_OF_RACES);
-//  }
-
+  /**
+   * Delete the list of Students States Counts from the public Database.
+   *
+   * @return true if deleted.
+   */
   public boolean deleteListOfStudentsStatesCounts() {
     return deleteDataByTerm(LIST_OF_STUDENTS_STATES);
   }
 
+  /**
+   * Delete the list of Highest Degrees Counts from the public Database.
+   *
+   * @return true if deleted.
+   */
   public boolean deleteListOfHighestDegreesCounts() {
     return deleteDataByTerm(LIST_OF_DEGREES);
   }
 
+  /**
+   * Helper class to find the original data info from the public database for
+   * specific analaytic term.
+   *
+   * @param analyticTerm specific term to search the data,
+   *                     such as LIST_OF_DEGREES.
+   * @return the list of original multiple value aggregated data info
+   * for specific data.
+   */
   private List<MultipleValueAggregatedData> findDataByTerm(String analyticTerm) {
     Session session = factory.openSession();
     try {
@@ -135,6 +215,13 @@ public class MultipleValueAggregatedDataDao {
     }
   }
 
+  /**
+   * Helper class to delete data based on the specific analytic term.
+   *
+   * @param analyticTerm specific term to search the data,
+   *                     such as LIST_OF_DEGREES.
+   * @return true if deleted.
+   */
   private synchronized boolean deleteDataByTerm(String analyticTerm) {
     List<MultipleValueAggregatedData> listOfData = findDataByTerm(analyticTerm);
     for (MultipleValueAggregatedData data : listOfData) {

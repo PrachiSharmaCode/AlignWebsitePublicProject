@@ -26,6 +26,13 @@ public class StudentsPublicDao {
     }
   }
 
+  /**
+   * Create a Students row in the database for the student table in
+   * public database.
+   *
+   * @param student student object that wants to be created.
+   * @return student object if successfully created.
+   */
   public synchronized StudentsPublic createStudent(StudentsPublic student) {
     Transaction tx = null;
     if (findStudentByPublicId(student.getPublicId()) != null) {
@@ -46,6 +53,12 @@ public class StudentsPublicDao {
     return student;
   }
 
+  /**
+   * Find a student in public database by their public id.
+   *
+   * @param publicId the public id of a student to be searched.
+   * @return found students if exist, null otherwise.
+   */
   public StudentsPublic findStudentByPublicId(int publicId) {
     List<StudentsPublic> list;
     Session session = factory.openSession();
@@ -62,6 +75,13 @@ public class StudentsPublicDao {
     return list.get(0);
   }
 
+  /**
+   * Get list of count of students based on their graduation years.
+   * Sorted based on the total count of the students (Descending).
+   *
+   * @param numberOfResultsDesired total number of results.
+   * @return list of count of students based on their grad years.
+   */
   public List<TopGradYears> getTopGraduationYears(int numberOfResultsDesired) {
     String hql = "SELECT NEW org.mehaexample.asdDemo.model.alignpublic.TopGradYears(s.graduationYear, Count(*)) " +
             "FROM StudentsPublic s " +
@@ -79,6 +99,11 @@ public class StudentsPublicDao {
     return listOfTopGradYears;
   }
 
+  /**
+   * Get list of all Students' graduation years.
+   *
+   * @return list of Integer for Students' grad years.
+   */
   public List<Integer> getListOfAllGraduationYears() {
     List<Integer> listOfAllGraduationYears;
     Session session = factory.openSession();
@@ -95,6 +120,11 @@ public class StudentsPublicDao {
     return listOfAllGraduationYears;
   }
 
+  /**
+   * Get list of all students in Northeastern University.
+   *
+   * @return list of all students.
+   */
   public List<StudentsPublic> getListOfAllStudents() {
     List<StudentsPublic> listOfAllStudents;
     Session session = factory.openSession();
@@ -111,6 +141,14 @@ public class StudentsPublicDao {
     return listOfAllStudents;
   }
 
+  /**
+   * Get list of students based on the filtering of the user.
+   *
+   * @param filters searching filter.
+   * @param begin   begin index.
+   * @param end     end index
+   * @return return the list of students based on the filter and the pagination index.
+   */
   public List<StudentsPublic> getPublicFilteredStudents(Map<String, List<String>> filters, int begin, int end) {
     StringBuilder hql = new StringBuilder("SELECT Distinct(s) " +
             "FROM StudentsPublic s " +
@@ -120,6 +158,12 @@ public class StudentsPublicDao {
     return (List<StudentsPublic>) populatePublicFilteredHql(hql, filters, begin, end);
   }
 
+  /**
+   * Get the count of results based on the User's filtering.
+   *
+   * @param filters user's search filter.
+   * @return count of results based on the filter.
+   */
   public int getPublicFilteredStudentsCount(Map<String, List<String>> filters) {
     StringBuilder hql = new StringBuilder("SELECT Count ( Distinct s ) " +
             "FROM StudentsPublic s " +
@@ -130,6 +174,15 @@ public class StudentsPublicDao {
     return count.get(0).intValue();
   }
 
+  /**
+   * Helper class for populating the hibernate query language.
+   *
+   * @param hql     the String of Hibernate Query.
+   * @param filters User's filter.
+   * @param begin   begin index.
+   * @param end     end index.
+   * @return results based on the User's filters and hibernate query.
+   */
   private List populatePublicFilteredHql(StringBuilder hql, Map<String, List<String>> filters, Integer begin, Integer end) {
     Set<String> filterKeys = filters.keySet();
     for (String filter : filterKeys) {
@@ -179,6 +232,12 @@ public class StudentsPublicDao {
     }
   }
 
+  /**
+   * Update a student information in the public database.
+   *
+   * @param student updated student information.
+   * @return true if updated.
+   */
   public synchronized boolean updateStudent(StudentsPublic student) {
     if (findStudentByPublicId(student.getPublicId()) == null) {
       throw new HibernateException("Cannot find student with that public Id");
@@ -201,6 +260,12 @@ public class StudentsPublicDao {
     return true;
   }
 
+  /**
+   * Delete a student by their public Id.
+   *
+   * @param publicId public Id to be deleted.
+   * @return true if deleted.
+   */
   public synchronized boolean deleteStudentByPublicId(int publicId) {
     StudentsPublic student = findStudentByPublicId(publicId);
     if (student != null) {

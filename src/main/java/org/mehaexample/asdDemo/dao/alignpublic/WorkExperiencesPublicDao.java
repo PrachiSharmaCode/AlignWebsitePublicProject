@@ -26,6 +26,13 @@ public class WorkExperiencesPublicDao {
     }
   }
 
+  /**
+   * Create a work experience data in the coop table in the public
+   * database.
+   *
+   * @param workExperience work experience data to be added.
+   * @return work experience data if created.
+   */
   public synchronized WorkExperiencesPublic createWorkExperience(WorkExperiencesPublic workExperience) {
     Session session = factory.openSession();
     Transaction tx = null;
@@ -42,6 +49,13 @@ public class WorkExperiencesPublicDao {
     return workExperience;
   }
 
+  /**
+   * Find a work experience from the coop table in the public database
+   * based on the work Experience Id.
+   *
+   * @param workExperienceId to be found from the database.
+   * @return work experience object if found, null otherwise.
+   */
   public WorkExperiencesPublic findWorkExperienceById(int workExperienceId) {
     List<WorkExperiencesPublic> list;
     Session session = factory.openSession();
@@ -59,6 +73,13 @@ public class WorkExperiencesPublicDao {
     return list.get(0);
   }
 
+  /**
+   * Get top ten coop companies from the coop tables in the
+   * public database.
+   *
+   * @param numberOfResultsDesired total number of results desired.
+   * @return top ten coop companies.
+   */
   public List<TopCoops> getTopCoops(int numberOfResultsDesired) {
     String hql = "SELECT NEW org.mehaexample.asdDemo.model.alignpublic.TopCoops(w.coop, Count(*)) " +
             "FROM WorkExperiencesPublic w " +
@@ -76,6 +97,11 @@ public class WorkExperiencesPublicDao {
     return listOfTopCoops;
   }
 
+  /**
+   * Get list of all coop companies from the public database.
+   *
+   * @return list of all coop companies.
+   */
   public List<String> getListOfAllCoopCompanies() {
     String hql = "SELECT w.coop " +
             "FROM WorkExperiencesPublic w " +
@@ -92,6 +118,13 @@ public class WorkExperiencesPublicDao {
     return listOfAllCoopCompanies;
   }
 
+  /**
+   * Delete Work Experience data in the coop table based on their
+   * ID.
+   *
+   * @param workExperienceId work Exp Id to be deleted.
+   * @return true if deleted.
+   */
   public synchronized boolean deleteWorkExperienceById(int workExperienceId) {
     WorkExperiencesPublic workExperience = findWorkExperienceById(workExperienceId);
     if (workExperience != null) {

@@ -27,9 +27,6 @@ public class UndergraduatesPublicDaoTest {
     undergraduatesPublicDao = new UndergraduatesPublicDao(true);
     studentsPublicDao = new StudentsPublicDao(true);
 
-//    undergraduatesPublicDao = new UndergraduatesPublicDao();
-//    studentsPublicDao = new StudentsPublicDao();
-
     StudentsPublic studentsPublic = new StudentsPublic(
             5, 2016, true);
     studentsPublicDao.createStudent(studentsPublic);
@@ -56,11 +53,17 @@ public class UndergraduatesPublicDaoTest {
     studentsPublicDao.deleteStudentByPublicId(5);
   }
 
+  /**
+   * Test for deleting a non existent undergraduate data from the public database.
+   */
   @Test(expected = HibernateException.class)
   public void deleteNonExistentUndergraduateTest() {
     undergraduatesPublicDao.deleteUndergraduateById(-200);
   }
 
+  /**
+   * Test for finding a specific undergrad data from the public database.
+   */
   @Test
   public void findUndergraduateByIdTest() {
     assertTrue(undergraduatesPublicDao.findUndergraduateById(undergraduate.getUndergraduateId())
@@ -70,6 +73,9 @@ public class UndergraduatesPublicDaoTest {
     assertTrue(undergraduatesPublicDao.findUndergraduateById(-200) == null);
   }
 
+  /**
+   * Test for getting top undergraduate schools from the public database.
+   */
   @Test
   public void getTopUndergradSchoolsTest() {
     List<TopUndergradSchools> listOfTopSchools = undergraduatesPublicDao.getTopUndergradSchools(3);
@@ -80,6 +86,9 @@ public class UndergraduatesPublicDaoTest {
     assertTrue(listOfTopSchools.get(1).getTotalStudents() == 1);
   }
 
+  /**
+   * Testing for getting top undergraduate degrees from the public database.
+   */
   @Test
   public void getTopUndergradDegreesTest() {
     List<TopUndergradDegrees> listOfTopDegrees = undergraduatesPublicDao.getTopUndergradDegrees(3);
@@ -90,6 +99,9 @@ public class UndergraduatesPublicDaoTest {
     assertTrue(listOfTopDegrees.get(1).getTotalStudents() == 1);
   }
 
+  /**
+   * Testing for getting list of all undergraduate schools from the public database.
+   */
   @Test
   public void getListOfAllSchoolsTest() {
     List<String> listOfAllSchools = undergraduatesPublicDao.getListOfAllSchools();
@@ -98,6 +110,9 @@ public class UndergraduatesPublicDaoTest {
     assertTrue(listOfAllSchools.get(1).equals("Harvard University"));
   }
 
+  /**
+   * Test for getting list of all undergraduate majors from the public database.
+   */
   @Test
   public void getListOfAllUndergraduateDegreesTest() {
     List<String> listOfAllUndergraduateDegrees = undergraduatesPublicDao.getListOfAllUndergraduateDegrees();

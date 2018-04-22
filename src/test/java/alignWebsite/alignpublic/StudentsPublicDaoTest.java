@@ -26,15 +26,14 @@ public class StudentsPublicDaoTest {
   private static WorkExperiencesPublic workExperience;
   private static UndergraduatesPublic undergraduatesPublic;
 
+  /**
+   * Initialize the data in the database for testing.
+   */
   @BeforeClass
   public static void init() {
     undergraduatesPublicDao = new UndergraduatesPublicDao(true);
     workExperiencesPublicDao = new WorkExperiencesPublicDao(true);
     studentsPublicDao = new StudentsPublicDao(true);
-
-//    undergraduatesPublicDao = new UndergraduatesPublicDao();
-//    workExperiencesPublicDao = new WorkExperiencesPublicDao();
-//    studentsPublicDao = new StudentsPublicDao();
 
     StudentsPublic studentsPublic = new StudentsPublic(5, 2016, true);
     studentsPublicDao.createStudent(studentsPublic);
@@ -49,6 +48,9 @@ public class StudentsPublicDaoTest {
     undergraduatesPublicDao.createUndergraduate(undergraduatesPublic);
   }
 
+  /**
+   * Delete database placeholder after testing.
+   */
   @AfterClass
   public static void deleteDatabasePlaceholder() {
     undergraduatesPublicDao.deleteUndergraduateById(undergraduatesPublic.getUndergraduateId());
@@ -64,17 +66,26 @@ public class StudentsPublicDaoTest {
 //    new StudentsPublicDao();
 //  }
 
+  /**
+   * trying to add a student that is already exist.
+   */
   @Test(expected = HibernateException.class)
   public void createDuplicateStudentTest() {
     StudentsPublic studentsPublic = new StudentsPublic(5, 2016, true);
     studentsPublicDao.createStudent(studentsPublic);
   }
 
+  /**
+   * Trying to delete a non existent student in the database.
+   */
   @Test(expected = HibernateException.class)
   public void deleteNonExistentStudentTest() {
     studentsPublicDao.deleteStudentByPublicId(-200);
   }
 
+  /**
+   * Trying to update a non existent student in the database.
+   */
   @Test(expected = HibernateException.class)
   public void updateNonExistentStudentTest() {
     StudentsPublic sp = new StudentsPublic();
@@ -82,6 +93,9 @@ public class StudentsPublicDaoTest {
     studentsPublicDao.updateStudent(sp);
   }
 
+  /**
+   * Test for finding and updating student in the public database.
+   */
   @Test
   public void findStudentByPublicIdAndUpdateTest() {
     StudentsPublic studentsPublic = studentsPublicDao.findStudentByPublicId(5);
@@ -99,6 +113,9 @@ public class StudentsPublicDaoTest {
     assertTrue(studentsPublic.getWorkExperiences().get(0).getCoop().equals("Google"));
   }
 
+  /**
+   * Test for getting the top count of students based on their graduation years.
+   */
   @Test
   public void getTopGraduationYearsTest() {
     List<TopGradYears> listOfTopGradYears = studentsPublicDao.getTopGraduationYears(3);
@@ -109,6 +126,9 @@ public class StudentsPublicDaoTest {
     assertTrue(listOfTopGradYears.get(1).getTotalStudents() == 1);
   }
 
+  /**
+   * Test for getting list of all graduation years.
+   */
   @Test
   public void getListOfAllGraduationYearsTest() {
     List<Integer> listOfAllGraduationYears = studentsPublicDao.getListOfAllGraduationYears();
@@ -117,6 +137,9 @@ public class StudentsPublicDaoTest {
     assertTrue(listOfAllGraduationYears.get(1) == 2017);
   }
 
+  /**
+   * Testing for getting all students.
+   */
   @Test
   public void getListOfAllStudentsTest() {
     List<StudentsPublic> listOfAllStudents = studentsPublicDao.getListOfAllStudents();
@@ -126,6 +149,9 @@ public class StudentsPublicDaoTest {
     assertTrue(listOfAllStudents.get(1).getWorkExperiences().get(0).getCoop().equals("Google"));
   }
 
+  /**
+   * Testing for getting students based on the filtered applied by the user.
+   */
   @Test
   public void getPublicFilteredStudentsTest() {
     Map<String, List<String>> filter = new HashMap<>();

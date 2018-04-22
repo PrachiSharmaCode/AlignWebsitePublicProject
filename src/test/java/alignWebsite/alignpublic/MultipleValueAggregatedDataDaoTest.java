@@ -16,10 +16,11 @@ public class MultipleValueAggregatedDataDaoTest {
   @BeforeClass
   public static void init() {
     dataDao = new MultipleValueAggregatedDataDao(true);
-
-//    dataDao = new MultipleValueAggregatedDataDao();
   }
 
+  /**
+   * This is the test for update / get / delete list of employers test.
+   */
   @Test
   public void updateGetDeleteEmployersTest() {
     // add data
@@ -50,6 +51,9 @@ public class MultipleValueAggregatedDataDaoTest {
     Assert.assertTrue(dataDao.getTopFiveListOfEmployers().isEmpty());
   }
 
+  /**
+   * This is the test for update / get / delete list of bachelor degrees.
+   */
   @Test
   public void updateGetDeleteBachelorDegreesTest() {
     // add data
@@ -80,38 +84,9 @@ public class MultipleValueAggregatedDataDaoTest {
     Assert.assertTrue(dataDao.getTopFiveListOfBachelorDegrees().isEmpty());
   }
 
-//  @Test
-//  public void updateGetDeleteRacesTest() {
-//    // add data
-//    MultipleValueAggregatedData white = new MultipleValueAggregatedData();
-//    white.setAnalyticTerm(MultipleValueAggregatedDataDao.LIST_OF_RACES);
-//    white.setAnalyticKey("White");
-//    white.setAnalyticValue(20);
-//
-//    MultipleValueAggregatedData black = new MultipleValueAggregatedData();
-//    black.setAnalyticTerm(MultipleValueAggregatedDataDao.LIST_OF_RACES);
-//    black.setAnalyticKey("Black");
-//    black.setAnalyticValue(21);
-//
-//    // update in database
-//    List<MultipleValueAggregatedData> listOfRaces = new ArrayList<>();
-//    listOfRaces.add(white);
-//    listOfRaces.add(black);
-//    dataDao.saveOrUpdateList(listOfRaces);
-//
-//    // query the database
-//    List<DataCount> result = dataDao.getListOfRacesCount();
-//    Assert.assertTrue(result.size() == 2);
-//    Assert.assertTrue(result.get(0).getDataKey().equals("Black"));
-//    Assert.assertTrue(result.get(0).getDataValue() == 21);
-//    Assert.assertTrue(result.get(1).getDataKey().equals("White"));
-//    Assert.assertTrue(result.get(1).getDataValue() == 20);
-//
-//    // clear the database
-//    dataDao.deleteListOfRacesCounts();
-//    Assert.assertTrue(dataDao.getListOfRacesCount().isEmpty());
-//  }
-
+  /**
+   * This is the test for update / get / delete students' states.
+   */
   @Test
   public void updateGetDeleteStudentsStatesTest() {
     // add data
@@ -144,6 +119,9 @@ public class MultipleValueAggregatedDataDaoTest {
     Assert.assertTrue(dataDao.getListOfStudentsStatesCount().isEmpty());
   }
 
+  /**
+   * This is the test for update / get / delete students' highest degrees.
+   */
   @Test
   public void updateGetDeleteHighestDegreesTest() {
     // add data
@@ -165,11 +143,8 @@ public class MultipleValueAggregatedDataDaoTest {
 
     // query the database
     List<DataCount> result = dataDao.getListOfHighestDegreesCount();
-//    Assert.assertTrue(result.size() == 4);
     Assert.assertTrue(result.get(0).getDataKey().equals("Bachelors"));
     Assert.assertTrue(result.get(0).getDataValue() == 21);
-//    Assert.assertTrue(result.get(1).getDataKey().equals("Masters"));
-//    Assert.assertTrue(result.get(1).getDataValue() == 20);
 
     // clear the database
     dataDao.deleteListOfHighestDegreesCounts();

@@ -13,10 +13,11 @@ public class SingleValueAggregatedDataDaoTest {
   @BeforeClass
   public static void init() {
     dataDao = new SingleValueAggregatedDataDao(true);
-
-//    dataDao = new SingleValueAggregatedDataDao();
   }
 
+  /**
+   * Test for updating a non existent single value aggregated data.
+   */
   @Test(expected = HibernateException.class)
   public void updateNonExistentData() {
     SingleValueAggregatedData data = new SingleValueAggregatedData();
@@ -25,6 +26,9 @@ public class SingleValueAggregatedDataDaoTest {
     dataDao.saveOrUpdateData(data);
   }
 
+  /**
+   * Testing for getting and updating a single value aggregated data.
+   */
   @Test
   public void getAndUpdateData() {
     // Total Students
