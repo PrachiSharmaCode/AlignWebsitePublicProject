@@ -1,24 +1,31 @@
 package PublicServiceTest;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import junit.framework.Assert;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.core.Response;
+
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mehaexample.asdDemo.alignWebsite.PublicFacing;
-import org.mehaexample.asdDemo.dao.alignpublic.*;
-import org.mehaexample.asdDemo.enums.*;
-import org.mehaexample.asdDemo.model.alignpublic.*;
+import org.mehaexample.asdDemo.dao.alignpublic.MultipleValueAggregatedDataDao;
+import org.mehaexample.asdDemo.dao.alignpublic.SingleValueAggregatedDataDao;
+import org.mehaexample.asdDemo.dao.alignpublic.StudentsPublicDao;
+import org.mehaexample.asdDemo.dao.alignpublic.UndergraduatesPublicDao;
+import org.mehaexample.asdDemo.dao.alignpublic.WorkExperiencesPublicDao;
+import org.mehaexample.asdDemo.model.alignpublic.DataCount;
+import org.mehaexample.asdDemo.model.alignpublic.MultipleValueAggregatedData;
+import org.mehaexample.asdDemo.model.alignpublic.SingleValueAggregatedData;
+import org.mehaexample.asdDemo.model.alignpublic.StudentsPublic;
+import org.mehaexample.asdDemo.model.alignpublic.UndergraduatesPublic;
+import org.mehaexample.asdDemo.model.alignpublic.WorkExperiencesPublic;
 import org.mehaexample.asdDemo.restModels.StudentSerachCriteria;
 import org.mehaexample.asdDemo.restModels.StudentStatsObject;
-import org.mehaexample.asdDemo.restModels.TopUnderGradSchools;
 
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
+import junit.framework.Assert;
 
 public class serviceTest {
 
