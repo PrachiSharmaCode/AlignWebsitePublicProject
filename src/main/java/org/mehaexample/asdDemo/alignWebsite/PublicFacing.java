@@ -318,8 +318,13 @@ public class PublicFacing {
 			for(StudentsPublic student : studentList){
 				String undergradDegree = "No degree";
 				String undergradSchool = "No school";
-				String coop = "No coop";
-				if(student.getWorkExperiences().size() > 0){
+				String coop = "No coop";if(student.getWorkExperiences().size() > 1 && studentSerachCriteria.getCoops() != null && studentSerachCriteria.getCoops().size() > 0){
+					for(int j=0; j<student.getWorkExperiences().size(); j++){
+						if(studentSerachCriteria.getCoops().contains(student.getWorkExperiences().get(j).getCoop())){
+							coop = student.getWorkExperiences().get(j).getCoop();
+						}
+					}
+				}else if(student.getWorkExperiences().size() > 0){
 					coop = student.getWorkExperiences().get(0).getCoop();
 				}
 				if(student.getUndergraduates().size() > 0){
