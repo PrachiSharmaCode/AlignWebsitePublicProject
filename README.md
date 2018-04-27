@@ -19,7 +19,7 @@ sql_scripts folder for the SQL Scripts to create the Databases.
 
 ### Public facing has the following APIs:
 
-![image](https://user-images.githubusercontent.com/31941282/39389109-5b760718-4a3a-11e8-893d-f9afe80ed848.png)
+![image](https://user-images.githubusercontent.com/31941282/39389283-c4f10232-4a3b-11e8-84a1-336bea41fccf.png)
 ![image](https://user-images.githubusercontent.com/31941282/39389123-87735ab4-4a3a-11e8-8e35-a0bcb1a26f88.png)
 ![image](https://user-images.githubusercontent.com/31941282/39389138-add8047a-4a3a-11e8-878c-94f32a1176ae.png)
 ![image](https://user-images.githubusercontent.com/31941282/39389152-cbe8e9d4-4a3a-11e8-8654-fe295b4fced2.png)
