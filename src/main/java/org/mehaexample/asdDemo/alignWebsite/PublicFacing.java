@@ -14,16 +14,21 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.json.JSONObject;
 import org.json.JSONArray;
-import org.mehaexample.asdDemo.dao.alignpublic.*;
-import org.mehaexample.asdDemo.model.alignpublic.*;
+import org.json.JSONObject;
+import org.mehaexample.asdDemo.dao.alignpublic.MultipleValueAggregatedDataDao;
+import org.mehaexample.asdDemo.dao.alignpublic.SingleValueAggregatedDataDao;
+import org.mehaexample.asdDemo.dao.alignpublic.StudentsPublicDao;
+import org.mehaexample.asdDemo.dao.alignpublic.UndergraduatesPublicDao;
+import org.mehaexample.asdDemo.dao.alignpublic.WorkExperiencesPublicDao;
+import org.mehaexample.asdDemo.model.alignpublic.DataCount;
+import org.mehaexample.asdDemo.model.alignpublic.StudentsPublic;
+import org.mehaexample.asdDemo.model.alignpublic.TopCoops;
+import org.mehaexample.asdDemo.model.alignpublic.TopGradYears;
+import org.mehaexample.asdDemo.model.alignpublic.TopUndergradDegrees;
+import org.mehaexample.asdDemo.model.alignpublic.TopUndergradSchools;
 import org.mehaexample.asdDemo.restModels.StudentSerachCriteria;
 import org.mehaexample.asdDemo.restModels.StudentStatsObject;
-import org.mehaexample.asdDemo.restModels.TopCoopsNumber;
-import org.mehaexample.asdDemo.restModels.TopGraduationYearsNumber;
-import org.mehaexample.asdDemo.restModels.TopUnderGradDegreesNumber;
-import org.mehaexample.asdDemo.restModels.TopUnderGradSchools;
 
 @Path("")
 public class PublicFacing {
@@ -313,8 +318,13 @@ public class PublicFacing {
 			for(StudentsPublic student : studentList){
 				String undergradDegree = "No degree";
 				String undergradSchool = "No school";
-				String coop = "No coop";
-				if(student.getWorkExperiences().size() > 0){
+				String coop = "No coop";if(student.getWorkExperiences().size() > 1 && studentSerachCriteria.getCoops() != null && studentSerachCriteria.getCoops().size() > 0){
+					for(int j=0; j<student.getWorkExperiences().size(); j++){
+						if(studentSerachCriteria.getCoops().contains(student.getWorkExperiences().get(j).getCoop())){
+							coop = student.getWorkExperiences().get(j).getCoop();
+						}
+					}
+				}else if(student.getWorkExperiences().size() > 0){
 					coop = student.getWorkExperiences().get(0).getCoop();
 				}
 				if(student.getUndergraduates().size() > 0){
