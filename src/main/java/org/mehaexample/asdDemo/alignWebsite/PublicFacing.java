@@ -45,6 +45,8 @@ public class PublicFacing {
 	 * @param topUnderGradSchools
 	 * @return List of n top undergraduate schools
 	 * @throws SQLException
+	 *
+	 * Endpoint: https://asd4.ccs.neu.edu:8080/undergradschools
 	 */
 	@POST
 	@Path("/undergradschools")
@@ -69,12 +71,13 @@ public class PublicFacing {
 
 	/**
 	 * Request 2
-	 * This is the function to get top coops.
-	 * The body should be in the JSON format like below:
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/top-coops
+	 * This is the function to get top n Coop companies
 	 *
-	 * @return List of n top coops
+	 * @param topCoopsNumber
+	 * @return List of n top Coop companies
+	 * @throws SQLException
+	 *
+	 * Endpoint: https://asd4.ccs.neu.edu:8080/coops
 	 */
 	@POST
 	@Path("/coops")
@@ -99,12 +102,13 @@ public class PublicFacing {
 
 	/**
 	 * Request 3
-	 * This is the function to get top undergraduate majors.
-	 * The body should be in the JSON format like below:
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/top-undergraddegrees
+	 * This is the function to get top n Undergrad Major
 	 *
-	 * @return List of n top undergraduate degrees
+	 * @param topUnderGradMajorsNumber
+	 * @return List of n top undergraduate Major
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080 /undergradmajors
 	 */
 	@POST
 	@Path("undergradmajors")
@@ -129,12 +133,13 @@ public class PublicFacing {
 
 	/**
 	 * Request 4
-	 * This is the function to get top graduation years.
-	 * The body should be in the JSON format like below:
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/top-graduationyears
+	 * This is the function to get top n graduation year
 	 *
-	 * @return List of n top graduation years
+	 * @param topGraduationYearsNumber
+	 * @return List of n top graduation year
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080 /graduationyears
 	 */
 	@POST
 	@Path("graduationyears")
@@ -159,11 +164,13 @@ public class PublicFacing {
 
 	/**
 	 * Request 5
-	 * This is a function to get all undergrad schools
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/all-schools
+	 * This is the function to get all undergraduate schools
 	 *
-	 * @return List of UnderGradSchools
+	 *
+	 * @return List of all undergraduate School
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/undergradschools
 	 */
 	@GET
 	@Path("/undergradschools")
@@ -181,10 +188,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(allUnderGradSchools).build();
 	}
 
-		/**
-	 * This is the function to get all graduate years.
-	 * 
-	 * @return List of all graduate years
+	/**
+	 * Request 6
+	 * This is the function to get all graduation year
+	 *
+	 *
+	 * @return List of all graduation year
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/graduationyears
 	 */
 	@GET
 	@Path("graduationyears")
@@ -210,10 +222,13 @@ public class PublicFacing {
 	}
 
 	/**
-	 * Request 6
-	 * This is a function to get list of ALL Coop companies
-	 * 	 
-	 * @return List of all Coops
+	 * Request 7
+	 * This is the function to get all coop companies
+	 *
+	 * @return List of all coop companies
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/coops
 	 */
 	@GET
 	@Path("/coops")
@@ -232,16 +247,16 @@ public class PublicFacing {
 		}
 
 		return Response.status(Response.Status.OK).entity(listOfAllCoopCompanies).build();
-	} 
-	
+	}
+
 	/**
-	 * Request 7
-	 * This is the function to get all undergraduate degrees.
-	 * The body should be in the JSON format like below:
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/all-undergraddegrees
+	 * Request 8
+	 * This is the function to get all Undergradute Major
 	 *
-	 * @return List of all undergraduate degrees
+	 * @return List of all Undergradute Major
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/undergradmajors
 	 */
 	@GET
 	@Path("undergradmajors")
@@ -260,12 +275,15 @@ public class PublicFacing {
 	}
 
 	/**
-	 * Request 10
-	 * This is the function to search for students
-	 * <p>
-	 * http://localhost:8080/alignWebsite/webapi/public-facing/students
+	 * Request 9
+	 * This is the function to search stduent on the basis
+	 * of coop, undergraduate degree, undergraduate school, graduation year.
 	 *
-	 * @return the list of student profiles matching the fields.
+	 * @return Number of student coop, undergraduate degree,
+	 * 			undergraduate school, graduation year
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/students
 	 */
 	@POST
 	@Path("students")
@@ -350,7 +368,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(finalObj.toString()).build();
 	}
 
-	// Request 11
+	/**
+	 * Request 10
+	 * This is the function to get percentage of male and female student
+	 *
+	 * @return percentage of male and female student
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/gender
+	 */
 	@GET
 	@Path("gender")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -378,38 +404,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
 	}
 
-	// // Request 12
-	//    @GET
-	//    @Path("race")
-	//    @Consumes(MediaType.APPLICATION_JSON)
-	//    @Produces(MediaType.APPLICATION_JSON)
-	//    public Response getRace(){
-	//		List<DataCount> race;
-	//		JSONObject resultObj = new JSONObject();
-	//		int totalCount = 0;
-	//
-	//        try {
-	//            race = multipleValueAggregatedDataDao.getListOfRacesCount();
-	//
-	//            for(int i=0; i<race.size();i++){
-	//    			totalCount += race.get(i).getDataValue();
-	//            }
-	//			
-	//			if(totalCount == 0){
-	//				totalCount = 1;
-	//			}
-	//
-	//    		for(int i=0; i<race.size();i++){
-	//    			float percent = (float) (( (float) race.get(i).getDataValue()/(float) totalCount ) * 100.00);
-	//    			resultObj.put(race.get(i).getDataKey().toLowerCase(), Float.toString(percent));
-	//    		}
-	//        } catch (Exception e) {
-	//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-	//        }
-	//		return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
-	//    }
-
-	// Request 14
+	/**
+	 * Request 11
+	 * This is the function to get percentage of full-time and part-time student
+	 *
+	 * @return percentage of full-time and part-time student
+	 * @throws SQLException
+	 *
+	 *  Endpoint:  https://asd4.ccs.neu.edu:8080/enrollment
+	 */
 	@GET
 	@Path("enrollment")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -435,7 +438,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
 	}
 
-	// Request 15
+	/**
+	 * Request 12
+	 * This is the function to get percentage of graduated and terminated student
+	 *
+	 * @return percentage of graduated and terminated student
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/graduation
+	 */
 	@GET
 	@Path("graduation")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -466,7 +477,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
 	}
 
-	// Request 16
+	/**
+	 * Request 13
+	 * This is the function to get percentage of student from different state
+	 *
+	 * @return percentage of student from different state
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/state
+	 */
 	@GET
 	@Path("state")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -497,7 +516,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
 	}
 
-	// Request 17
+	/**
+	 * Request 14
+	 * This is the function to get percentage of student from in Campus
+	 *
+	 * @return percentage of student in different campus
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/campus
+	 */
 	@GET
 	@Path("campus")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -530,7 +557,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
 	}
 
-	// Request 18
+	/**
+	 * Request 15
+	 * This is the function to get percentage of student with scholarship
+	 *
+	 * @return percentage of with scholarship
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/scholarship
+	 */
 	@GET
 	@Path("scholarship")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -555,7 +590,15 @@ public class PublicFacing {
 	return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();
 	}
 
-	// Request 19
+	/**
+	 * Request 16
+	 * This is the function to get percentage student in Undergraduate Major
+	 *
+	 * @return percentage student in Undergraduate Major
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/undergradmajor-percent
+	 */
 	@GET
 	@Path("undergradmajor-percent")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -586,7 +629,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
 	}
 
-	// Request 20
+	/**
+	 * Request 17
+	 * This is the function to get percentage of Highest Degree
+	 *
+	 * @return percentage of Highest Degree
+	 * @throws SQLException
+	 *
+	 *  Endpoint:  https://asd4.ccs.neu.edu:8080/highest-education
+	 */
 	@GET
 	@Path("highest-education")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -615,7 +666,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(resultObj.toString()).build();
 	}
 
-	// Machine Learning API
+	/**
+	 * Request 18
+	 * This is the function to get total graduated student
+	 *
+	 * @return total graduated student
+	 * @throws SQLException
+	 *
+	 *  Endpoint:  https://asd4.ccs.neu.edu:8080/stats/graduates
+	 */
 	@GET
 	@Path("stats/graduates")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -630,7 +689,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();    	    	
 	}
 
-	// Machine Learning API
+	/**
+	 * Request 19
+	 * This is the function to get total  student
+	 *
+	 * @return total number of student
+	 * @throws SQLException
+	 *
+	 *  Endpoint:  https://asd4.ccs.neu.edu:8080/stats/total-student-count
+	 */
 	@GET
 	@Path("stats/total-student-count")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -645,7 +712,15 @@ public class PublicFacing {
 		return Response.status(Response.Status.OK).entity(jsonObj.toString()).build();    	
 	}
 
-	// Machine Learning API
+	/**
+	 * Request 20
+	 * This is the function to get total student in each campus
+	 *
+	 * @return  total student in each campus
+	 * @throws SQLException
+	 *
+	 *  Endpoint: https://asd4.ccs.neu.edu:8080/stats/student-count
+	 */
 	@POST
 	@Path("stats/student-count")
 	@Consumes(MediaType.APPLICATION_JSON)
